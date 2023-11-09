@@ -1,10 +1,9 @@
 import { Grid, Text } from '@mantine/core';
 import { noteType } from '../../types/note';
 import BoiLoader from '../../atoms/Loader';
-import { SingleNote } from './SingleNote';
-import { SinglenoteList } from '../List/SingleNoteList';
+import { SingleNote } from '../Home/SingleNote';
 
-const NoteLists = ({ type, notes, isLoading }: { type: string, notes: noteType[] | any, isLoading: boolean }) => {
+const TrashLists = ({ type, notes, isLoading }: { type: string, notes: noteType[] | any, isLoading: boolean }) => {
 
 
 	return (
@@ -20,4 +19,4 @@ const NoteLists = ({ type, notes, isLoading }: { type: string, notes: noteType[]
 	);
 };
 
-export default NoteLists;
+export default TrashLists;

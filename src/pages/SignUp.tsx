@@ -11,8 +11,9 @@ import {
 import { hasLength, isEmail, useForm } from '@mantine/form';
 import { Link } from "react-router-dom";
 import { useRegisterMutation } from '../redux/features/auth/authApi';
-import { notifications } from '@mantine/notifications';
 import { IconX } from '@tabler/icons-react';
+import { IconCheck } from '@tabler/icons-react';
+import notify from '../utils/notify';
 
 export default function SignUp() {
 	const [register, { isLoading }] = useRegisterMutation();
@@ -46,16 +47,10 @@ export default function SignUp() {
 			</Text>
 			<form onSubmit={form.onSubmit(async (values): Promise<void> => {
 				const res: any = await register(values);
-				notifications.show({
-					id: 'success-login',
-					withCloseButton: true,
-					title: res?.data.status === 'Success' ? "Sign up Success" : "Sign up Failure, Try again",
-					message: res?.data.status === 'Success' ? res.data?.message : res?.error?.data.message,
-					color: res?.data.status === 'Success' ? 'cyan' : 'red',
-					icon: <IconX />,
-					className: 'my-notification-class',
-					loading: false,
-				});
+
+				const isSuccess = Boolean(res?.data?.status === 'Success');
+				const icon = isSuccess ? <IconCheck /> : <IconX color="red" />;
+				notify(isSuccess, "Sign up Success", icon);
 
 			})}>
 				<Paper withBorder shadow="md" p={30} mt={30} radius="md">

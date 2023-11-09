@@ -51,22 +51,22 @@ const Home = () => {
 								</Container>
 
 								<div className={classes.controls}>
-									<Button className={classes.control} onClick={() => navigate("/all")} size="lg" variant="default" color="gray">
-										See all public notes, shared by users
-									</Button>
-									{user?.username && <Button onClick={open} className={classes.control} size="lg">
+
+									{user?.username ? <Button onClick={open} className={classes.control} size="lg">
 										Add New Note
+									</Button> : <Button className={classes.control} onClick={() => navigate("/auth/login")} size="lg" variant='gradient' color="gray">
+										Get Started
 									</Button>}
 								</div>
 							</div>
 						</Container>
 					</Grid>
-					<ScrollArea h={{ md: 400, lg: 450 }} type="never" >
+					{/* <ScrollArea h={{ md: 400, lg: 450 }} type="never" >
 						<Text fs={'revert'} sx={{ fontSize: 25, textAlign: 'center' }} fw={700} my={30} inline>
 							Featured notes
 						</Text>
-						{/* <BookLists type='feature' books={featData?.data} isLoading={featLoading} /> */}
-					</ScrollArea>
+						<BookLists type='feature' books={featData?.data} isLoading={featLoading} />
+					</ScrollArea> */}
 				</Grid.Col>
 
 			</Grid >

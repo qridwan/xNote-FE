@@ -14,7 +14,7 @@ const noteApi = api.injectEndpoints({
       providesTags: ["notes"],
     }),
     singlenote: builder.query({
-      query: (id: string) => `/note/${id}`,
+      query: (id: string) => `/notes/${id}`,
       providesTags: ["list", "notes"],
     }),
     featurednote: builder.query({

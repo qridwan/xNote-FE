@@ -8,13 +8,18 @@ import {
 	rem,
 	Box,
 	Flex,
+	ActionIcon,
+	Tooltip,
 } from '@mantine/core';
 import { noteType } from '../../types/note';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../redux/hook';
 import isColorLight from '../../utils/isColorLight';
 import CardAction from '../../atoms/CardAction';
 import { formatDate } from '../../helpers/dates';
+import { IconCheck, IconRotate, IconX } from '@tabler/icons-react';
+import { useDeletetrashMutation } from '../../redux/features/trash/trashApi';
+import notify from '../../utils/notify';
 
 const useStyles = createStyles((theme) => ({
 	card: {
@@ -33,6 +38,8 @@ const useStyles = createStyles((theme) => ({
 		display: 'block',
 		marginTop: theme.spacing.md,
 		marginBottom: rem(5),
+		padding: '4px',
+		textAlign: 'center',
 		// color: "white",
 		// textDecoration: '0',
 	},
@@ -46,6 +53,11 @@ const useStyles = createStyles((theme) => ({
 
 	footer: {
 		marginTop: theme.spacing.xs,
+
+		position: 'absolute',
+		bottom: 4,
+		left: 4,
+		width: '90%'
 	},
 }));
 
@@ -53,12 +65,14 @@ const useStyles = createStyles((theme) => ({
 
 export function SingleNote({ note }: { note: noteType }) {
 	const { classes, cx } = useStyles();
-	const { title, content, id, color, create_time } = note;
+	const { title, content, id, color, create_time, deleted_at, trash_id } = note;
 	const { user } = useAppSelector(state => state.auth)
 	const isLightBG = isColorLight(color ?? '#000');
+	const [deletetrash, { isLoading }] = useDeletetrashMutation();
+	const navigate = useNavigate();
 
 	return (
-		<Card withBorder color={color} shadow='sm' radius="md" className={cx(classes.card)} >
+		<Card withBorder h="100%" color={color} shadow='sm' radius="md" className={cx(classes.card)} >
 			<Card.Section mt={-20}>
 				<Box sx={{ minHeight: 50, width: '100%', background: color ?? 'grey', display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
 					<Text className={classes.title} color={isLightBG ? '#4A6098' : 'white'} fw={700} >
@@ -70,6 +84,9 @@ export function SingleNote({ note }: { note: noteType }) {
 				{create_time && <Text align='center' fz="xs" fw={600} color={'#4A6098'}>
 					{formatDate(create_time)}
 				</Text>}
+				{deleted_at && <Text align='center' fz="xs" fw={600} color={'red'}>
+					Deleted At: {formatDate(deleted_at)}
+				</Text>}
 			</Card.Section>
 
 
@@ -79,30 +96,39 @@ export function SingleNote({ note }: { note: noteType }) {
 			</Badge> */}
 
 			<Link to={`/note/${id as string}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-				<div dangerouslySetInnerHTML={{ __html: content.slice(0, 120) }}></div>
+				<div dangerouslySetInnerHTML={{ __html: content.slice(0, 120) }} style={{ marginBottom: '30px' }}></div>
 			</Link>
-			<Flex justify={'space-between'} className={classes.footer}>
-				<Center>
-					<Avatar size={34} radius="xl" color={color ?? 'gray'} mr="xs" >
-						{user?.username.slice(0, 1)}
-					</Avatar>
-					<Text fz="sm" inline>
-						{user?.username}
-					</Text>
+			<Box className={classes.footer}>
+				<Flex justify={'space-between'} >
+					<Center>
+						<Avatar size={34} radius="xl" color={color ?? 'gray'} mr="xs" >
+							{user?.username.slice(0, 1)}
+						</Avatar>
+						<Text fz="sm" inline>
+							{user?.username}
+						</Text>
 
 
-				</Center>
+					</Center>
 
 
-				<Group spacing={8} mr={0}>
+					<Group spacing={8} mr={0}>
 
-					<CardAction note={note} />
-					{/* <ActionIcon className={classes.action}>
-						<Iconnotemark size="1rem" color={theme.colors.yellow[7]} />
-					</ActionIcon> */}
+						{trash_id ? <Tooltip label="Put Back" color='green' withArrow><ActionIcon disabled={isLoading} onClick={async () => {
+							const res: any = await deletetrash(trash_id.toString()!);
 
-				</Group>
-			</Flex>
+							const isSuccess = Boolean(res?.data?.status === 'Success');
+							const icon = isSuccess ? <IconCheck /> : <IconX color="red" />;
+							notify(isSuccess, "Note successfully restored!", icon);
+
+						}} color='green' className={classes.action}>
+							<IconRotate size="1rem" color={'green'} />
+						</ActionIcon></Tooltip> : <CardAction note={note} />}
+
+
+					</Group>
+				</Flex>
+			</Box>
 		</Card >
 	);
 }

@@ -1,12 +1,15 @@
-import { Code, Flex, Text } from '@mantine/core';
+import { Flex, Text } from '@mantine/core';
 import BrandLogoPNG from '../assets/images/xnote.png';
 import { Link } from 'react-router-dom'
+import { useAppSelector } from '../redux/hook';
 
 
 export function BrandLogo() {
+	const { user } = useAppSelector(state => state.auth);
+	const { username } = user || {};
 	return (
 		<div>
-			<Link to="/" style={{ textDecoration: 'none', color: 'grey' }}>
+			<Link to={username ? '/all' : "/"} style={{ textDecoration: 'none', color: 'grey' }}>
 
 				<Flex
 					mih={50}

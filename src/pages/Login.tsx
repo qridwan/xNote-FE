@@ -13,8 +13,8 @@ import { hasLength, isEmail, useForm } from '@mantine/form';
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from '../redux/features/auth/authApi';
 import { ILoginBody } from '../types/user';
-import { IconX } from '@tabler/icons-react';
-import { notifications } from '@mantine/notifications';
+import { IconCheck, IconX } from '@tabler/icons-react';
+import notify from '../utils/notify';
 
 export default function Login() {
 	const navigate = useNavigate();
@@ -33,14 +33,15 @@ export default function Login() {
 
 	return (
 
-		<Container size={420} my={20}>
+		<Container size={420} my={20}
+		>
 			<Title
-				order={4}
-				fw={8}
+				align="center"
+				sx={(theme) => ({ fontFamily: `Greycliff CF, ${theme.fontFamily!}`, fontWeight: 900 })}
 			>
-				Welcome back!
+				Welcome Back 👋🏼
 			</Title>
-			<Text c="dimmed" size="sm" mt={5}>
+			<Text c="dimmed" size="sm" align='center' mt={5}>
 				Do not have an account yet?{' '}
 				<Link to="/auth/signup">
 					<Anchor size="sm" component="button">
@@ -51,21 +52,10 @@ export default function Login() {
 			<Paper withBorder shadow="md" p={30} mt={30} radius="md">
 				<form onSubmit={form.onSubmit(async (values: ILoginBody): Promise<void> => {
 					const res: any = await login(values);
-					notifications.show({
-						id: 'success-login',
-						withCloseButton: true,
-						onClose: () => console.log('unmounted'),
-						onOpen: () => console.log('mounted'),
-						autoClose: 3000,
-						title: res?.data.status === 'Success' ? "Login Success" : "Login Failure",
-						message: res?.data.status === 'Success' ? res?.data.message : res?.error?.data.message,
-						color: res?.data.status === 'Success' ? 'cyan' : 'red',
-						icon: <IconX />,
-						className: 'my-notification-class',
-						style: { backgroundColor: 'white' },
-						loading: false,
-					});
-					res?.data.status === 'Success' && navigate('/')
+					const isSuccess = Boolean(res?.data?.status === 'Success');
+					const icon = isSuccess ? <IconCheck /> : <IconX color="red" />;
+					notify(isSuccess, "Login Success!", icon);
+					isSuccess && navigate('/all')
 				})}>
 
 					<TextInput label="Email" placeholder="mail@qridwan.com" required {...form.getInputProps('email')} />

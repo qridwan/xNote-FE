@@ -16,11 +16,13 @@ import { useState } from 'react';
 import { useAddnoteMutation } from '../../redux/features/notes/noteApi';
 import Editor from '../../atoms/Editor';
 import notify from '../../utils/notify';
+import { useNavigate } from 'react-router-dom';
 
-const AddNote = () => {
+const NoteAddForm = ({ content, setContent }: { content: string, setContent: (s: string) => void }) => {
 	const [addnote, { isLoading }] = useAddnoteMutation();
 	const [tags, setTags] = useState<string[]>([]);
-	const [content, setContent] = useState<string>('');
+	const navigate = useNavigate();
+
 
 	const handleChangeEditor = ({ editor }: any) => {
 		setContent(editor?.getHTML() as string);
@@ -38,12 +40,8 @@ const AddNote = () => {
 	return (
 		<div>
 			<Container my={0} sx={{ minHeight: 450, display: 'flex', alignItems: 'center' }} >
-
-
 				<Paper withBorder sx={{ width: '100%' }} shadow="md" p={10} mt={10} radius="md">
 					<form onSubmit={form.onSubmit(async (values): Promise<void> => {
-
-
 						const res: any = await addnote({
 							...values,
 							content: content,
@@ -58,20 +56,15 @@ const AddNote = () => {
 
 						if (res?.data.status === 'Success') {
 							form.reset();
+
 							setContent('')
+							navigate('/all')
 						}
 					})}>
 
 						<Text color='grey' align='center' fw={800}>ADD NEW NOTE</Text>
 						<TextInput label="Title" placeholder="Think and Grow Rich" required {...form.getInputProps('title')} />
-						{/* <Textarea
-							label="Description"
-							description="Your note description"
-							placeholder=""
-							autosize
-							minRows={3}
-							{...form.getInputProps('content')}
-						/> */}
+
 						<Box >
 							<Text color='dark' align='start' fz={14} fw={500}>Description *</Text>
 							<Editor
@@ -108,7 +101,7 @@ const AddNote = () => {
 						<ColorInput label="Choose a color" {...form.getInputProps('color')} defaultValue="#C5D899" />
 
 						<Button disabled={isLoading} fullWidth gradient={{ from: 'indigo', to: 'cyan' }} mt="xl" color='grey' type='submit' >
-							{!isLoading ? 'SAVE' : 'loading...'}
+							{!isLoading ? 'CREATE' : 'loading...'}
 						</Button>
 					</form>
 				</Paper>
@@ -117,6 +110,6 @@ const AddNote = () => {
 	);
 };
 
-export default AddNote;
+export default NoteAddForm;
 
 

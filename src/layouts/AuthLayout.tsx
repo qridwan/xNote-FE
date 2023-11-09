@@ -4,6 +4,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { IconBrandTwitter, IconBrandYoutube, IconBrandInstagram } from '@tabler/icons-react';
 import BrandLogo from '../atoms/BrandLogo';
 import { Outlet, useNavigate } from 'react-router-dom';
+import Social from '../components/shared/Social';
 
 
 const useStyles = createStyles((theme) => ({
@@ -76,25 +77,10 @@ const links: ILink[] = [{
 
 export default function AuthLayout() {
 	const [opened, { toggle }] = useDisclosure(false);
-	const [active] = useState(links[0].link);
 
 	// console.log('setActive: ', setActive);
-	const { classes, cx } = useStyles();
-	const navigate = useNavigate()
+	const { classes } = useStyles();
 
-	const items = links.map((link) => (
-		<a
-			key={link.label}
-			href={link.link}
-			className={cx(classes.link, { [classes.linkActive]: active === link.link })}
-			onClick={(event) => {
-				event.preventDefault();
-				navigate(link.link);
-			}}
-		>
-			{link.label}
-		</a>
-	));
 
 	return (
 		<>
@@ -103,22 +89,13 @@ export default function AuthLayout() {
 				<Container className={classes.inner}>
 					<Burger opened={opened} onClick={toggle} size="sm" className={classes.burger} />
 					<Group className={classes.links} spacing={5}>
-						{items}
+						{/* {items} */}
+						<BrandLogo />
 					</Group>
 
-					<BrandLogo />
 
-					<Group spacing={0} className={classes.social} position="right" noWrap>
-						<ActionIcon size="lg">
-							<IconBrandTwitter size="1.1rem" stroke={1.5} />
-						</ActionIcon>
-						<ActionIcon size="lg">
-							<IconBrandYoutube size="1.1rem" stroke={1.5} />
-						</ActionIcon>
-						<ActionIcon size="lg">
-							<IconBrandInstagram size="1.1rem" stroke={1.5} />
-						</ActionIcon>
-					</Group>
+
+					<Social />
 				</Container>
 			</Header>
 			<Outlet />

@@ -25,47 +25,16 @@ const AllNotes = () => {
 
 
 				{/* MAIN PART */}
-				<Grid.Col span={7}>
-					<Grid align='end' justify='center' my={10} >
-						<Grid.Col span={8}>
-							<SearchArea value={value} onChange={(event) => {
-								setValue(event.currentTarget.value)
-								if (event.currentTarget.value === '') {
-									setSearchTerm('')
-								}
-							}} rightSection={
-								<ActionIcon disabled={isLoading} onClick={() => {
+				<Grid.Col span={12}>
 
-									setSearchTerm(value)
-								}} size={32} radius="xl" color={theme.primaryColor} variant="filled">
-									{(
-										!isLoading ? <IconArrowRight size="1.1rem" stroke={1.5} />
-											: <Loader size="xs" color='white' />
-									)}
-								</ActionIcon>
-							} />
-						</Grid.Col>
-						<Grid.Col span={4}>
-
-						</Grid.Col>
-					</Grid>
-					<ScrollArea h={'70vh'} type="never" >
-						<Text fz="xl" fw={700} my={30} inline>
+					<ScrollArea h={'75vh'} type="never" >
+						<Text fz={30} align='center' color='grey' fw={800} my={30} inline>
 							All Notes
 						</Text>
-						<NoteLists type={'all'} notes={allnotes?.data} isLoading={isLoading} />
+						<NoteLists type={'list'} notes={allnotes?.data} isLoading={isLoading} />
 					</ScrollArea>
 				</Grid.Col>
-				{/* SIDEBAR */}
-				<Grid.Col span={5} mt={50} sx={{ overflowY: 'auto' }}>
-					{/* <Blockquote cite="– Forrest Gump">
-						Life is like an npm install – you never know what you are going to get.
-					</Blockquote> */}
-					{user?.username && <Grid.Col span={12}>
-						<AddNote />
-					</Grid.Col>}
 
-				</Grid.Col>
 			</Grid >
 		</Container >
 	);

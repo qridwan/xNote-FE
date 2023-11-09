@@ -10,6 +10,9 @@ import WatchList from '../pages/WatchList';
 import ReadingList from '../pages/ReadingList';
 import PrivateRoute from './PrivateRoute';
 import AllNotes from '../pages/AllNotes';
+import Trash from '../pages/Trash';
+import CreateNote from '../pages/CreateNote';
+import NoteDetails from '../pages/NoteDetails';
 
 
 
@@ -18,10 +21,7 @@ const routes = createBrowserRouter([
 		path: '/',
 		element: <MainLayout />,
 		children: [
-			{
-				index: true,
-				element: <Home />,
-			},
+
 			{
 				path: '/watchlist',
 				element: <PrivateRoute>
@@ -35,18 +35,38 @@ const routes = createBrowserRouter([
 				</PrivateRoute>,
 			},
 			{
-				path: '/book/:id',
-				// element: <bookDetails />,
+				path: '/note/:id',
+				element: <NoteDetails />,
 			},
 			{
 				path: '/all',
-				element: <AllNotes />,
+				element: <PrivateRoute>
+					<AllNotes />
+				</PrivateRoute>,
 			},
-			//   {
-			//     path: '/checkout',
-			//     element: <Checkout />,
-			//   },
+			{
+				path: '/trash',
+				element: <PrivateRoute>
+					<Trash />
+				</PrivateRoute>,
+			},
+			{
+				path: '/create',
+				element: <PrivateRoute>
+					<CreateNote />
+				</PrivateRoute>,
+			},
 		],
+	},
+	{
+		path: '/',
+		element: <AuthLayout />,
+		children: [
+			{
+				index: true,
+				element: <Home />,
+			},
+		]
 	},
 	{
 		path: '/auth',
@@ -58,6 +78,7 @@ const routes = createBrowserRouter([
 					<Login />
 				</AuthRoute>,
 			},
+
 			{
 				path: 'login',
 				element: <AuthRoute>

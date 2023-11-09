@@ -59,7 +59,7 @@
 // 							title: res?.data.status === 'Success' ? "book Updated" : "Operation Failed",
 // 							message: res?.data.status === 'Success' ? res.data?.message : res?.error?.data.message,
 // 							color: res?.data.status === 'Success' ? 'cyan' : 'red',
-// 							icon: <IconX />,
+// 							icon: <IconX color="red"/>,
 // 							className: 'my-notification-class',
 // 							style: { backgroundColor: '' },
 // 							sx: { backgroundColor: 'white' },

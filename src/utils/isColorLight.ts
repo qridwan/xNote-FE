@@ -1,6 +1,7 @@
 export default function isColorLight(hexColor: string): boolean {
+  if (!hexColor) return false;
   // Remove the '#' if it's present
-  hexColor = hexColor.replace("#", "");
+  hexColor = hexColor?.replace("#", "");
 
   // Parse the color components (R, G, and B)
   const r = parseInt(hexColor.slice(0, 2), 16);

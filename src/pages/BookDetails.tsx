@@ -65,15 +65,15 @@ const BookDetails = () => {
 			onClose: () => console.log('unmounted'),
 			onOpen: () => console.log('mounted'),
 			autoClose: 3000,
-			title: res?.status === 'Success' ? "book Deleted" : "Operation Failed",
-			message: res?.status === 'Success' ? res.data?.message : res?.error?.data.message,
-			color: res?.status === 'Success' ? 'cyan' : 'red',
+			title: res?.data.status === 'Success' ? "book Deleted" : "Operation Failed",
+			message: res?.data.status === 'Success' ? res.data?.message : res?.error?.data.message,
+			color: res?.data.status === 'Success' ? 'cyan' : 'red',
 			icon: <IconX />,
 			className: 'my-notification-class',
 			loading: false,
 		});
 		close();// closing dialog
-		res?.status === 'Success' && navigate('/');
+		res?.data.status === 'Success' && navigate('/');
 		return Promise.resolve();
 	}
 
@@ -224,16 +224,16 @@ const BookDetails = () => {
 						onClose: () => console.log('unmounted'),
 						onOpen: () => console.log('mounted'),
 						autoClose: 3000,
-						title: res?.status === 'Success' ? "Review Added" : "Operation Failed",
-						message: res?.status === 'Success' ? res.data?.message : res?.error?.data.message,
-						color: res?.status === 'Success' ? 'cyan' : 'red',
+						title: res?.data.status === 'Success' ? "Review Added" : "Operation Failed",
+						message: res?.data.status === 'Success' ? res.data?.message : res?.error?.data.message,
+						color: res?.data.status === 'Success' ? 'cyan' : 'red',
 						icon: <IconX />,
 						className: 'my-notification-class',
 						loading: false,
 					});
 
 
-					res?.status === 'Success' && form.reset();
+					res?.data.status === 'Success' && form.reset();
 					return Promise.resolve();
 
 

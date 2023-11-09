@@ -2,6 +2,7 @@ import { createStyles, Anchor, Group, ActionIcon, rem, Container } from '@mantin
 import { IconBrandTwitter, IconBrandYoutube, IconBrandInstagram } from '@tabler/icons-react';
 import BrandLogo from '../../atoms/BrandLogo';
 import { Link } from 'react-router-dom';
+import Social from './Social';
 
 
 
@@ -9,17 +10,17 @@ import { Link } from 'react-router-dom';
 
 const useStyles = createStyles((theme) => ({
 	footer: {
-		marginTop: rem(120),
+		// marginTop: rem(120),
+		backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[1],
 		borderTop: `${rem(1)} solid ${theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]
 			}`,
 	},
 
 	inner: {
 		display: 'flex',
-		justifyContent: 'space-between',
+		justifyContent: 'space-around',
 		alignItems: 'center',
 		padding: `${theme.spacing.md} ${theme.spacing.md}`,
-
 		[theme.fn.smallerThan('sm')]: {
 			flexDirection: 'column',
 		},
@@ -50,34 +51,23 @@ export default function Footer() {
 	));
 
 	return (
-		<Container size={'lg'}>
+		<>
 			<div className={classes.footer}>
 				<div className={classes.inner}>
 					<BrandLogo />
 
 					<Group className={classes.links}>{items}</Group>
-
-					<Group spacing="xs" position="right" noWrap>
-						<ActionIcon size="lg" variant="default" radius="xl">
-							<IconBrandTwitter size="1.05rem" stroke={1.5} />
-						</ActionIcon>
-						<ActionIcon size="lg" variant="default" radius="xl">
-							<IconBrandYoutube size="1.05rem" stroke={1.5} />
-						</ActionIcon>
-						<ActionIcon size="lg" variant="default" radius="xl">
-							<IconBrandInstagram size="1.05rem" stroke={1.5} />
-						</ActionIcon>
-					</Group>
+					<Social />
 				</div>
 			</div>
-		</Container>
+		</>
 	);
 }
 
 const links = [
 	{
-		"link": "/",
-		"label": "Featured"
+		"link": "/create",
+		"label": "Create Note"
 	},
 	{
 		"link": "/all",

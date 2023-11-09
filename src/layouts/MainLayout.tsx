@@ -1,33 +1,18 @@
 import { useState } from 'react';
 import {
 	createStyles,
-	Container,
-	Avatar,
-	UnstyledButton,
-	Group,
-	Text,
-	Menu,
-	Burger,
 	rem,
-	Button,
+	AppShell,
+	Box
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import {
-	IconLogout,
-	IconHeart,
-	IconStar,
-	IconMessage,
-	IconSettings,
 
-	IconChevronDown,
-	IconTrashFilled,
-} from '@tabler/icons-react';
 import { Outlet, useNavigate } from 'react-router-dom'
-// import { MantineLogo } from '@mantine/ds';
-import BrandLogo from '../atoms/BrandLogo';
 import Footer from '../components/shared/Footer';
 import { useAppDispatch, useAppSelector } from '../redux/hook';
 import { userLoggedOut } from '../redux/features/auth/authSlice';
+import XHeader from '../components/layouts/Header';
+import { XSidebar } from '../components/layouts/Sidebar';
 // gradient 
 const useStyles = createStyles((theme) => ({
 	header: {
@@ -126,80 +111,23 @@ export function MainLayout() {
 
 	return (
 		<>
-			<div className={classes.header}>
-				<Container className={classes.mainSection}>
-					<Group position="apart">
-						<BrandLogo />
 
-						<Burger
-							opened={opened}
-							onClick={toggle}
-							className={classes.burger}
-							size="sm"
-						// color={theme.white}
-						/>
+			<AppShell
+				padding="md"
+				navbar={<XSidebar />}
+				header={<XHeader />}
+				styles={(theme) => ({
 
-						{user?.username ? <Menu
-							width={260}
-							position="bottom-end"
-							transitionProps={{ transition: 'pop-top-right' }}
-							onClose={() => setUserMenuOpened(false)}
-							onOpen={() => setUserMenuOpened(true)}
-							withinPortal
-						>
-							<Menu.Target>
-								<UnstyledButton
-									className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
-								>
-									<Group spacing={7}>
-										<Avatar color='grey' radius="xl" size={30} />
-										<Text weight={800} size="lg" sx={{ lineHeight: 1, color: 'grey' }} mr={3}>
-											{user?.username.toUpperCase()}
-										</Text>
-										<IconChevronDown size={rem(12)} stroke={1.5} />
-									</Group>
-								</UnstyledButton>
-							</Menu.Target>
-							<Menu.Dropdown>
-								{/* <Menu.Item
-									onClick={() => navigate('/watchlist')}
-									icon={<IconHeart size="0.9rem" stroke={1.5} color={theme.colors.red[6]} />}
-								>
-									Watch List
-								</Menu.Item> */}
-								<Menu.Item
-									color='grey'
-									onClick={() => navigate('/trash')}
-									icon={<IconTrashFilled size="0.9rem" stroke={1.5} color={theme.colors.blue[6]} />}
-								>
-									Trash
-								</Menu.Item>
-								{/* <Menu.Item
-									disabled
-									icon={<IconMessage size="0.9rem" stroke={1.5} color={theme.colors.blue[6]} />}
-								>
-									Your Reviews
-								</Menu.Item> */}
+					main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0], minHeight: 'auto', height: '80vh' },
+				})}
+				footer={
+					<Footer />}
+			>
+				<Box mih={'auto'}>
+					<Outlet />
+				</Box>
+			</AppShell>
 
-								<Menu.Label>Settings</Menu.Label>
-								<Menu.Item onClick={logout} icon={<IconLogout size="0.9rem" stroke={1.5} />}>Logout</Menu.Item>
-
-								{/* <Menu.Item disabled icon={<IconSettings size="0.9rem" stroke={1.5} />}>
-									Account settings
-								</Menu.Item> */}
-
-
-								<Menu.Divider />
-							</Menu.Dropdown>
-						</Menu> : <Button onClick={() => navigate('/auth/login')}>Login</Button>}
-					</Group>
-				</Container>
-
-			</div>
-
-			<Outlet />
-
-			<Footer />
 		</>
 
 	);
