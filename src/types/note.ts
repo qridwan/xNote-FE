@@ -10,4 +10,5 @@ export type noteType = {
   deleted_at?: string | null;
   color?: string;
   trash_id?: string | number | null;
+  note_id?: string | number | null;
 };

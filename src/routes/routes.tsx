@@ -6,13 +6,13 @@ import AuthLayout from '../layouts/AuthLayout';
 import { MainLayout } from '../layouts/MainLayout';
 import Home from '../pages/Home';
 import AuthRoute from './AuthRoute';
-import WatchList from '../pages/WatchList';
-import ReadingList from '../pages/ReadingList';
 import PrivateRoute from './PrivateRoute';
 import AllNotes from '../pages/AllNotes';
 import Trash from '../pages/Trash';
 import CreateNote from '../pages/CreateNote';
 import NoteDetails from '../pages/NoteDetails';
+import CreateNoteBook from '../pages/CreateNoteBook';
+import NotesByNotebook from '../pages/NotesByNotebook';
 
 
 
@@ -22,21 +22,25 @@ const routes = createBrowserRouter([
 		element: <MainLayout />,
 		children: [
 
-			{
-				path: '/watchlist',
-				element: <PrivateRoute>
-					<WatchList />
-				</PrivateRoute>,
-			},
-			{
-				path: '/reading',
-				element: <PrivateRoute>
-					<ReadingList />
-				</PrivateRoute>,
-			},
+			// {
+			// 	path: '/watchlist',
+			// 	element: <PrivateRoute>
+			// 		<WatchList />
+			// 	</PrivateRoute>,
+			// },
+			// {
+			// 	path: '/reading',
+			// 	element: <PrivateRoute>
+			// 		<ReadingList />
+			// 	</PrivateRoute>,
+			// },
 			{
 				path: '/note/:id',
 				element: <NoteDetails />,
+			},
+			{
+				path: '/notebook/:id',
+				element: <NotesByNotebook />,
 			},
 			{
 				path: '/all',
@@ -54,6 +58,12 @@ const routes = createBrowserRouter([
 				path: '/create',
 				element: <PrivateRoute>
 					<CreateNote />
+				</PrivateRoute>,
+			},
+			{
+				path: '/create-notebook',
+				element: <PrivateRoute>
+					<CreateNoteBook />
 				</PrivateRoute>,
 			},
 		],

@@ -1,10 +1,7 @@
 import {
-	TextInput,
-	Code,
 	UnstyledButton,
 	Badge,
 	Text,
-	Group,
 	ActionIcon,
 	Tooltip,
 	rem,
@@ -12,7 +9,7 @@ import {
 	useMantineTheme,
 	Loader,
 } from '@mantine/core';
-import { IconBulb, IconUser, IconCheckbox, IconSearch, IconPlus, IconTrash, IconArrowRight, IconSquarePlus } from '@tabler/icons-react';
+import { IconBulb, IconPlus, IconTrash, IconArrowRight, IconSquarePlus } from '@tabler/icons-react';
 //   import { UserButton } from '../UserButton/UserButton';
 import classes from './Sidebar.module.css';
 import { SearchArea } from '../Home/SearchArea';
@@ -20,20 +17,11 @@ import { useNavigate } from 'react-router-dom';
 import { useGettrashQuery } from '../../redux/features/trash/trashApi';
 import { useState } from 'react';
 import { useGetnotesQuery } from '../../redux/features/notes/noteApi';
+import { useGetnotebookQuery } from '../../redux/features/notebook/notebookApi';
+import { notebookType } from '../../types/notebook';
+import { Link } from 'react-router-dom';
 
 
-
-const collections = [
-	{ emoji: '👍', label: 'Sales' },
-	{ emoji: '🚚', label: 'Deliveries' },
-	{ emoji: '💸', label: 'Discounts' },
-	{ emoji: '💰', label: 'Profits' },
-	{ emoji: '✨', label: 'Reports' },
-	{ emoji: '🛒', label: 'Orders' },
-	{ emoji: '📅', label: 'Events' },
-	{ emoji: '🙈', label: 'Debts' },
-	{ emoji: '💁‍♀️', label: 'Customers' },
-];
 
 export function XSidebar() {
 	const navigate = useNavigate();
@@ -42,12 +30,13 @@ export function XSidebar() {
 	const theme = useMantineTheme();
 	const { data: allTrash, isLoading } = useGettrashQuery({ searchTerm: searchTerm }, { refetchOnMountOrArgChange: true, })
 	const { data: allNotes } = useGetnotesQuery({ searchTerm: searchTerm }, { refetchOnMountOrArgChange: true, })
+	const { data: allNoteBooks } = useGetnotebookQuery({}, { refetchOnMountOrArgChange: true, })
 
 	const links = [
 		{ icon: IconBulb, label: 'All Notes', color: 'grey', notifications: allNotes?.data.length ?? 0, link: '/all' },
 		{ icon: IconSquarePlus, label: 'Create Note', color: 'gray', link: '/create' },
 		{ icon: IconTrash, label: 'Trash', color: 'red', notifications: allTrash?.data.length ?? 0, link: '/trash' },
-		// { icon: IconUser, label: 'Contacts' },
+
 	];
 
 
@@ -66,16 +55,15 @@ export function XSidebar() {
 		</UnstyledButton>
 	));
 
-	const collectionLinks = collections.map((collection) => (
-		<a
-			href="#"
-			onClick={(event) => event.preventDefault()}
-			key={collection.label}
+	const collectionLinks = allNoteBooks?.data.map((notebook: notebookType) => (
+		<Link
+			to={`/notebook/${notebook.id as string}`}
+			key={notebook.id}
 			className={classes.collectionLink}
 		>
-			<span style={{ marginRight: rem(9), fontSize: rem(16) }}>{collection.emoji}</span>{' '}
-			{collection.label}
-		</a>
+			<span style={{ marginRight: rem(9), fontSize: rem(16) }}>{notebook.icon}</span>{' '}
+			{notebook.name}
+		</Link>
 	));
 
 	return (
@@ -118,13 +106,13 @@ export function XSidebar() {
 					<Text size="lg" fw={500} c="dimmed">
 						Folders
 					</Text>
-					<Tooltip label="Create Note" withArrow position="right">
-						<ActionIcon onClick={() => navigate('/create')} variant="default" size={18}>
+					<Tooltip label="Create Folder" withArrow color='grey' position="right">
+						<ActionIcon onClick={() => navigate('/create-notebook')} variant="default" size={18}>
 							<IconPlus style={{ width: rem(12), height: rem(12) }} stroke={1.5} />
 						</ActionIcon>
 					</Tooltip>
 				</Flex>
-				<div className={classes.collections}>{collectionLinks}</div>
+				<div className={classes.collections}>{collectionLinks ?? ''}</div>
 			</div>
 		</nav>
 	);

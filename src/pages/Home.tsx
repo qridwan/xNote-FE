@@ -1,11 +1,10 @@
-import { Button, Container, Grid, Modal, ScrollArea, Text } from '@mantine/core';
+import { Button, Container, Grid, Modal, Text } from '@mantine/core';
 
 // import BookLists from '../components/Home/BookLists';
 import { useDisclosure } from '@mantine/hooks';
 import { createStyles, Title, rem } from '@mantine/core';
 import { Dots } from '../atoms/Dots';
 import { useNavigate } from 'react-router-dom';
-import { useFeaturedbookQuery } from '../redux/features/books/bookApi';
 import { useAppSelector } from '../redux/hook';
 import AddNote from '../components/Home/AddNote';
 

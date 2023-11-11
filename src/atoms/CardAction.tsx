@@ -20,7 +20,7 @@ const CardAction = ({ note }: { note: noteType }) => {
 			</Modal>
 			<Menu width={200} shadow="md">
 				<Menu.Target>
-					<ActionIcon variant="outline" color="gray" radius="xl" size="xs">
+					<ActionIcon variant='transparent' color="gray" radius="xl" size="xs">
 						<IconDotsVertical size={18} />
 					</ActionIcon>
 				</Menu.Target>

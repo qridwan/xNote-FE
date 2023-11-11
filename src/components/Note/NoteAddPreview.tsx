@@ -17,12 +17,15 @@ import { useAddnoteMutation } from '../../redux/features/notes/noteApi';
 import Editor from '../../atoms/Editor';
 import notify from '../../utils/notify';
 import { useNavigate } from 'react-router-dom';
+import { useGetnotebookQuery } from '../../redux/features/notebook/notebookApi';
+import { notebookType } from '../../types/notebook';
+import { convertSchema } from '../../utils/convertSchema';
 
 const NoteAddForm = ({ content, setContent }: { content: string, setContent: (s: string) => void }) => {
 	const [addnote, { isLoading }] = useAddnoteMutation();
 	const [tags, setTags] = useState<string[]>([]);
 	const navigate = useNavigate();
-
+	const { data: allNoteBooks } = useGetnotebookQuery({}, { refetchOnMountOrArgChange: true, })
 
 	const handleChangeEditor = ({ editor }: any) => {
 		setContent(editor?.getHTML() as string);
@@ -39,7 +42,7 @@ const NoteAddForm = ({ content, setContent }: { content: string, setContent: (s:
 	});
 	return (
 		<div>
-			<Container my={0} sx={{ minHeight: 450, display: 'flex', alignItems: 'center' }} >
+			<Container my={0} sx={{ minHeight: 300, display: 'flex', alignItems: 'center' }} >
 				<Paper withBorder sx={{ width: '100%' }} shadow="md" p={10} mt={10} radius="md">
 					<form onSubmit={form.onSubmit(async (values): Promise<void> => {
 						const res: any = await addnote({
@@ -48,7 +51,6 @@ const NoteAddForm = ({ content, setContent }: { content: string, setContent: (s:
 							notebook_id: values?.notebook_id ? Number(values?.notebook_id) : null,
 							category_id: values.category_id ? Number(values?.category_id) : null,
 						} as noteType);
-
 						const isSuccess = Boolean(res?.data?.status === 'Success');
 						const icon = isSuccess ? <IconCheck /> : <IconX color="red" />;
 						notify(isSuccess, "New note successfully added!", icon);
@@ -74,15 +76,9 @@ const NoteAddForm = ({ content, setContent }: { content: string, setContent: (s:
 						</Box>
 
 						<NativeSelect
-							label="Choose Category"
-							data={[
-								{ label: 'Finance', value: '2' },
-								{ label: 'Study', value: '1' },
-								{ label: 'Entertainment', value: '23' },
-								{ label: 'Travel', value: '4' }
-							]}
-
-							{...form.getInputProps('category_id')}
+							label="Choose Notebook"
+							data={convertSchema.NotebookConvertedSchema(allNoteBooks?.data as notebookType[])}
+							{...form.getInputProps('notebook_id')}
 						/>
 						<MultiSelect
 							label="Add Tags"
@@ -111,5 +107,7 @@ const NoteAddForm = ({ content, setContent }: { content: string, setContent: (s:
 };
 
 export default NoteAddForm;
+
+
 
 

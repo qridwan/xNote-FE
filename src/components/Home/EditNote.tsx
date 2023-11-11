@@ -18,9 +18,12 @@ import Editor from '../../atoms/Editor';
 import isColorLight from '../../utils/isColorLight';
 import { IconCheck } from '@tabler/icons-react';
 import notify from '../../utils/notify';
+import { convertSchema } from '../../utils/convertSchema';
+import { useGetnotebookQuery } from '../../redux/features/notebook/notebookApi';
+import { notebookType } from '../../types/notebook';
 
 const EditNote = ({ note, close }: { note: noteType, close?: () => void }) => {
-	console.log('note: ', note);
+	const { data: allNoteBooks } = useGetnotebookQuery({}, { refetchOnMountOrArgChange: true, })
 	const [editnote, { isLoading }] = useEditnoteMutation();
 	const [tags, setTags] = useState<string[]>([]);
 	const [content, setContent] = useState<string>(note.content);
@@ -81,16 +84,11 @@ const EditNote = ({ note, close }: { note: noteType, close?: () => void }) => {
 						</Box>
 
 						<NativeSelect
-							label="Choose Category"
-							data={[
-								{ label: 'React', value: '2' },
-								{ label: 'Angular', value: '1' },
-								{ label: 'Svelte', value: '23' },
-								{ label: 'Vue', value: '4' }
-							]}
-
-							{...form.getInputProps('category_id')}
+							label="Choose Notebook"
+							data={convertSchema.NotebookConvertedSchema(allNoteBooks?.data as notebookType[])}
+							{...form.getInputProps('notebook_id')}
 						/>
+
 						<MultiSelect
 							label="Add Tags"
 							data={tags}

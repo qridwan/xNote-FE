@@ -18,7 +18,7 @@ const trashApi = api.injectEndpoints({
         url: `/trash/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["trash"],
+      invalidatesTags: ["trash", "notes"],
     }),
     addtrash: builder.mutation({
       query: (data: trashType) => ({

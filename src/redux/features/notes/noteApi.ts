@@ -13,9 +13,19 @@ const noteApi = api.injectEndpoints({
       }) => `/notes?searchTerm=${searchTerm ?? ""}`,
       providesTags: ["notes"],
     }),
+    getnotesbyfolder: builder.query({
+      query: ({
+        searchTerm,
+        id,
+      }: // category,
+      {
+        searchTerm?: string;
+        id: string;
+      }) => `/notes/notebook/${id}?searchTerm=${searchTerm ?? ""}`,
+      providesTags: ["notes"],
+    }),
     singlenote: builder.query({
       query: (id: string) => `/notes/${id}`,
-      providesTags: ["list", "notes"],
     }),
     featurednote: builder.query({
       query: () => `/note/featured`,
@@ -29,7 +39,7 @@ const noteApi = api.injectEndpoints({
         url: `/notes/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["notes"],
+      invalidatesTags: ["notes", "trash"],
     }),
     addnote: builder.mutation({
       query: (data: noteType) => ({
@@ -75,4 +85,5 @@ export const {
   useGetReviewsQuery,
   useAddReviewMutation,
   useEditnoteMutation,
+  useGetnotesbyfolderQuery,
 } = noteApi;

@@ -24,15 +24,15 @@ function Editor({ content, handleChangeEditor }: { content: string, handleChange
 
 	return (
 		<RichTextEditor
-			sx={{ minHeight: '40vh' }}
+			sx={{ minHeight: '30vh' }}
 			editor={editor}
-			//   editorProps={{
-			//     attributes: { class: "editor-content" },
-			//   }}
-			onChange={(e) => {
-				// console.log("e: ", e);
-				// console.log("e: ", e.editor);
-			}}
+		// //   editorProps={{
+		// //     attributes: { class: "editor-content" },
+		// //   }}
+		// onChange={(e) => {
+		// 	// console.log("e: ", e);
+		// 	// console.log("e: ", e.editor);
+		// }}
 
 		>
 			<RichTextEditor.Toolbar sticky stickyOffset={60}>

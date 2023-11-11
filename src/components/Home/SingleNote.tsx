@@ -17,9 +17,10 @@ import { useAppSelector } from '../../redux/hook';
 import isColorLight from '../../utils/isColorLight';
 import CardAction from '../../atoms/CardAction';
 import { formatDate } from '../../helpers/dates';
-import { IconCheck, IconRotate, IconX } from '@tabler/icons-react';
+import { IconCheck, IconRotate, IconTrash, IconX } from '@tabler/icons-react';
 import { useDeletetrashMutation } from '../../redux/features/trash/trashApi';
 import notify from '../../utils/notify';
+import { useDeletenoteMutation } from '../../redux/features/notes/noteApi';
 
 const useStyles = createStyles((theme) => ({
 	card: {
@@ -65,10 +66,11 @@ const useStyles = createStyles((theme) => ({
 
 export function SingleNote({ note }: { note: noteType }) {
 	const { classes, cx } = useStyles();
-	const { title, content, id, color, create_time, deleted_at, trash_id } = note;
+	const { title, content, id, color, create_time, deleted_at, trash_id, note_id } = note;
 	const { user } = useAppSelector(state => state.auth)
 	const isLightBG = isColorLight(color ?? '#000');
 	const [deletetrash, { isLoading }] = useDeletetrashMutation();
+	const [deletenote, { isLoading: isNoteLoading }] = useDeletenoteMutation();
 	const navigate = useNavigate();
 
 	return (
@@ -95,7 +97,7 @@ export function SingleNote({ note }: { note: noteType }) {
 				{category}
 			</Badge> */}
 
-			<Link to={`/note/${id as string}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+			<Link to={trash_id ? '' : `/note/${id as string}`} style={{ textDecoration: 'none', color: 'inherit' }}>
 				<div dangerouslySetInnerHTML={{ __html: content.slice(0, 120) }} style={{ marginBottom: '30px' }}></div>
 			</Link>
 			<Box className={classes.footer}>
@@ -114,16 +116,27 @@ export function SingleNote({ note }: { note: noteType }) {
 
 					<Group spacing={8} mr={0}>
 
-						{trash_id ? <Tooltip label="Put Back" color='green' withArrow><ActionIcon disabled={isLoading} onClick={async () => {
-							const res: any = await deletetrash(trash_id.toString()!);
+						{trash_id ? <>
+							<Tooltip label="Put Back" color='green' withArrow><ActionIcon disabled={isLoading} onClick={async () => {
+								const res: any = await deletetrash(trash_id.toString()!);
 
-							const isSuccess = Boolean(res?.data?.status === 'Success');
-							const icon = isSuccess ? <IconCheck /> : <IconX color="red" />;
-							notify(isSuccess, "Note successfully restored!", icon);
+								const isSuccess = Boolean(res?.data?.status === 'Success');
+								const icon = isSuccess ? <IconCheck /> : <IconX color="red" />;
+								notify(isSuccess, "Note successfully restored!", icon);
 
-						}} color='green' className={classes.action}>
-							<IconRotate size="1rem" color={'green'} />
-						</ActionIcon></Tooltip> : <CardAction note={note} />}
+							}} color='green' className={classes.action}>
+								<IconRotate size="1rem" color={'green'} />
+							</ActionIcon></Tooltip>
+							<Tooltip label="Delete Permanently ⚠️" color='red' withArrow><ActionIcon disabled={isLoading} onClick={async () => {
+								const res: any = await deletenote(note_id?.toString() as string);
+								const isSuccess = Boolean(res?.data?.status === 'Success');
+								const icon = isSuccess ? <IconCheck /> : <IconX color="red" />;
+								notify(isSuccess, "Note deleted!", icon);
+							}} color='red' className={classes.action}>
+								<IconTrash size="1rem" color={'red'} />
+							</ActionIcon></Tooltip>
+
+						</> : <CardAction note={note} />}
 
 
 					</Group>

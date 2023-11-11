@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {
+  FetchArgs,
+  createApi,
+  fetchBaseQuery,
+} from "@reduxjs/toolkit/query/react";
 import { userLoggedOut } from "../features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
@@ -19,7 +23,7 @@ const baseQuery = fetchBaseQuery({
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: async (args, api, extraOptions) => {
-    const result = await baseQuery(args, api, extraOptions);
+    const result = await baseQuery(args as FetchArgs, api, extraOptions);
 
     if (result?.error?.status === 401) {
       api.dispatch(userLoggedOut());
@@ -27,6 +31,6 @@ export const apiSlice = createApi({
     }
     return result;
   },
-  tagTypes: ["reviews", "books", "list", "notes", "trash"],
+  tagTypes: ["reviews", "books", "notebook", "notes", "trash"],
   endpoints: () => ({}),
 });

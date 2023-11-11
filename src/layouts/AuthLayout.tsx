@@ -1,9 +1,7 @@
-import { useState } from 'react';
-import { createStyles, Header, Group, ActionIcon, Container, Burger, rem } from '@mantine/core';
+import { createStyles, Header, Group, Container, Burger, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconBrandTwitter, IconBrandYoutube, IconBrandInstagram } from '@tabler/icons-react';
 import BrandLogo from '../atoms/BrandLogo';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import Social from '../components/shared/Social';
 
 
@@ -67,12 +65,6 @@ const useStyles = createStyles((theme) => ({
 	},
 }));
 
-interface ILink { link: string; label: string }
-
-const links: ILink[] = [{
-	link: "/",
-	label: "Home",
-}]
 
 
 export default function AuthLayout() {
