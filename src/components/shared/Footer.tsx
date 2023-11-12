@@ -1,5 +1,4 @@
-import { createStyles, Anchor, Group, ActionIcon, rem, Container } from '@mantine/core';
-import { IconBrandTwitter, IconBrandYoutube, IconBrandInstagram } from '@tabler/icons-react';
+import { createStyles, Anchor, Group, rem } from '@mantine/core';
 import BrandLogo from '../../atoms/BrandLogo';
 import { Link } from 'react-router-dom';
 import Social from './Social';

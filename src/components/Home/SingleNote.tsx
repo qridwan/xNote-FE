@@ -12,7 +12,7 @@ import {
 	Tooltip,
 } from '@mantine/core';
 import { noteType } from '../../types/note';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../redux/hook';
 import isColorLight from '../../utils/isColorLight';
 import CardAction from '../../atoms/CardAction';
@@ -71,7 +71,6 @@ export function SingleNote({ note }: { note: noteType }) {
 	const isLightBG = isColorLight(color ?? '#000');
 	const [deletetrash, { isLoading }] = useDeletetrashMutation();
 	const [deletenote, { isLoading: isNoteLoading }] = useDeletenoteMutation();
-	const navigate = useNavigate();
 
 	return (
 		<Card withBorder h="100%" color={color} shadow='sm' radius="md" className={cx(classes.card)} >
@@ -127,7 +126,7 @@ export function SingleNote({ note }: { note: noteType }) {
 							}} color='green' className={classes.action}>
 								<IconRotate size="1rem" color={'green'} />
 							</ActionIcon></Tooltip>
-							<Tooltip label="Delete Permanently ⚠️" color='red' withArrow><ActionIcon disabled={isLoading} onClick={async () => {
+							<Tooltip label="Delete Permanently ⚠️" color='red' withArrow><ActionIcon disabled={isNoteLoading} onClick={async () => {
 								const res: any = await deletenote(note_id?.toString() as string);
 								const isSuccess = Boolean(res?.data?.status === 'Success');
 								const icon = isSuccess ? <IconCheck /> : <IconX color="red" />;
@@ -146,11 +145,4 @@ export function SingleNote({ note }: { note: noteType }) {
 	);
 }
 
-//transparen bg from hex color 40% to hex color
-const hexColor = (hex: string, opacity: number) => {
-	const r = parseInt(hex.slice(1, 3), 16);
-	const g = parseInt(hex.slice(3, 5), 16);
-	const b = parseInt(hex.slice(5, 7), 16);
 
-	return `rgba(${r}, ${g}, ${b}, ${opacity})`;
-}

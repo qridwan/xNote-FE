@@ -55,7 +55,6 @@ const NoteAddForm = ({ content, setContent }: { content: string, setContent: (s:
 						const icon = isSuccess ? <IconCheck /> : <IconX color="red" />;
 						notify(isSuccess, "New note successfully added!", icon);
 
-
 						if (res?.data.status === 'Success') {
 							form.reset();
 

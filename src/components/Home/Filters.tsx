@@ -3,17 +3,14 @@ import { Box, NativeSelect, Text } from '@mantine/core';
 
 import { Group } from '@mantine/core';
 import { YearPicker } from '@mantine/dates';
-import { useGenreListQuery } from '../../redux/features/books/bookApi';
 
 export default function Filters({ yearValue, setYearValue, setGenreValue }: any) {
-
-	const { data, isLoading } = useGenreListQuery({})
 
 	return (
 		<Box p={20}>
 			<NativeSelect
 				mt={10}
-				data={isLoading ? [''] : ['', ...data?.data]}
+				data={[{ label: 'genre1', value: '1' }]}
 				label="Filter by genre"
 				// description="Filter by genre"
 				withAsterisk

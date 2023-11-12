@@ -4,20 +4,9 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 import { Notifications } from '@mantine/notifications';
 import App from './App';
-import { MantineProvider, MantineColorsTuple } from '@mantine/core';
+import { MantineProvider, } from '@mantine/core';
 
-const myColor: MantineColorsTuple = [
-	"#f1f3f9",
-	"#e0e4ec",
-	"#bdc6d9",
-	"#98a6c8",
-	"#788bb9",
-	"#647ab0",
-	"#5a72ad",
-	"#4a6098",
-	"#405688",
-	"#344a79"
-]
+
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -37,7 +26,18 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 						h1: { fontSize: '2rem' },
 					},
 				},
-				colors: { grey: myColor }
+				colors: {
+					grey: ["#f1f3f9",
+						"#e0e4ec",
+						"#bdc6d9",
+						"#98a6c8",
+						"#788bb9",
+						"#647ab0",
+						"#5a72ad",
+						"#4a6098",
+						"#405688",
+						"#344a79"]
+				}
 
 			}}
 		>
