@@ -7,7 +7,7 @@ import {
 import { userLoggedOut } from "../features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:8080/api",
+  baseUrl: "https://xnote-api.qridwan.com/api",
   prepareHeaders: (headers, { getState }: any) => {
     const token = getState()?.auth?.accessToken;
     if (token) {
