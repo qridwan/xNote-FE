@@ -7,7 +7,7 @@ import {
 import { userLoggedOut } from "../features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://xnote-api.qridwan.com/api",
+  baseUrl: import.meta.env.VITE_API_URL as string,
   prepareHeaders: (headers, { getState }: any) => {
     const token = getState()?.auth?.accessToken;
     if (token) {

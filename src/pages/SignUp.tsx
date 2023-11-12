@@ -9,7 +9,7 @@ import {
 	Button,
 } from '@mantine/core';
 import { hasLength, isEmail, useForm } from '@mantine/form';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRegisterMutation } from '../redux/features/auth/authApi';
 import { IconX } from '@tabler/icons-react';
 import { IconCheck } from '@tabler/icons-react';
@@ -17,6 +17,7 @@ import notify from '../utils/notify';
 
 export default function SignUp() {
 	const [register, { isLoading }] = useRegisterMutation();
+	const navigate = useNavigate();
 
 	const form = useForm({
 		initialValues: {
@@ -26,7 +27,7 @@ export default function SignUp() {
 		},
 		validate: {
 			email: isEmail('Invalid email'),
-			password: hasLength({ min: 5, max: 10 }, 'Password must be at least 5-10 characters long'),
+			password: hasLength({ min: 6, max: 10 }, 'Password must be at least 6-10 characters long'),
 		},
 	});
 
@@ -47,10 +48,10 @@ export default function SignUp() {
 			</Text>
 			<form onSubmit={form.onSubmit(async (values): Promise<void> => {
 				const res: any = await register(values);
-
 				const isSuccess = Boolean(res?.data?.status === 'Success');
 				const icon = isSuccess ? <IconCheck /> : <IconX color="red" />;
 				notify(isSuccess, "Sign up Success", icon);
+				isSuccess && navigate('/all');
 
 			})}>
 				<Paper withBorder shadow="md" p={30} mt={30} radius="md">
