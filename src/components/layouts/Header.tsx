@@ -10,6 +10,7 @@ import {
 	Burger,
 	rem,
 	Button,
+	Drawer
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
@@ -23,6 +24,7 @@ import { useNavigate } from 'react-router-dom'
 import BrandLogo from '../../atoms/BrandLogo';
 import { useAppDispatch, useAppSelector } from '../../redux/hook';
 import { userLoggedOut } from '../../redux/features/auth/authSlice';
+import { XSidebar } from '../../components/layouts/Sidebar';
 
 const XHeader = () => {
 	const { user } = useAppSelector(state => state.auth);
@@ -49,6 +51,15 @@ const XHeader = () => {
 						size="sm"
 					// color={theme.white}
 					/>
+
+					<Drawer
+						opened={opened}
+						onClose={toggle}
+						title="xNote"
+						overlayProps={{ opacity: 0.5, blur: 4 }}
+					>
+						<XSidebar toggle={toggle} />
+					</Drawer>
 
 					{user?.username ? <Menu
 						width={260}

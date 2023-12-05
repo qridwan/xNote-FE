@@ -8,21 +8,19 @@ const CreateNote = () => {
 	const [content, setContent] = useState<string>('');
 
 	return (
-		<Container size="lg" px="xs" mih={'70vh'} >
-			<Grid>
-
+		<Container size="lg" px="xs" mih={'70vh'} sx={{ sm: { padding: 0 } }}>
+			<Grid >
 				{/* editor */}
-				<Grid.Col span={6} mt={10} sx={{ overflowY: 'auto' }}>
-					{user?.username && <Grid.Col span={12}>
+				<Grid.Col sm={12} md={6} mt={10} sx={{ overflowY: 'auto' }}>
+					{user?.username && <>
 						<NoteAddForm content={content} setContent={setContent} />
-					</Grid.Col>}
-
+					</>}
 				</Grid.Col>
 
 
 
 				{/* preview note */}
-				<Grid.Col span={6}>
+				<Grid.Col sm={12} md={6}>
 
 					<ScrollArea h={'75vh'} type="never" >
 						<Text fz="xl" color='grey' align='center' fw={700} my={10}>

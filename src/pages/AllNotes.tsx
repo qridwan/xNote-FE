@@ -17,7 +17,7 @@ const AllNotes = () => {
 				<Grid.Col span={12}>
 
 					<ScrollArea h={'75vh'} type="never" >
-						<Text fz={30} align='center' color='grey' fw={800} my={30} inline>
+						<Text fz={{ md: 30, xs: 18 }} align='center' color='grey' fw={800} my={{ md: 30, sm: 14 }} inline>
 							All Notes
 						</Text>
 						<NoteLists type={'list'} notes={allnotes?.data} isLoading={isLoading} />

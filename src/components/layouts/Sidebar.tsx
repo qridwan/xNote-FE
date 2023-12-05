@@ -23,7 +23,7 @@ import { Link } from 'react-router-dom';
 
 
 
-export function XSidebar() {
+export function XSidebar({ toggle }: { toggle: () => void }) {
 	const navigate = useNavigate();
 	const [value, setValue] = useState<string>('');
 	const [searchTerm, setSearchTerm] = useState<string>('');
@@ -42,7 +42,10 @@ export function XSidebar() {
 
 
 	const mainLinks = links.map((link) => (
-		<UnstyledButton onClick={() => navigate(link.link)} key={link.label} className={classes.mainLink}>
+		<UnstyledButton onClick={() => {
+			navigate(link.link)
+			toggle();
+		}} key={link.label} className={classes.mainLink}>
 			<div className={classes.mainLinkInner}>
 				<link.icon color={link.color} size={20} className={classes.mainLinkIcon} stroke={1.5} />
 				<Text color={link.color}>{link.label}</Text>
@@ -60,6 +63,7 @@ export function XSidebar() {
 			to={`/notebook/${notebook.id as string}`}
 			key={notebook.id}
 			className={classes.collectionLink}
+			onClick={toggle}
 		>
 			<span style={{ marginRight: rem(9), fontSize: rem(16) }}>{notebook.icon}</span>{' '}
 			{notebook.name}

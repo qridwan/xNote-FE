@@ -9,6 +9,13 @@
     light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 }
 
+/* //media query */
+/* @media screen and (max-width: 500px) {
+  .navbar {
+    display: none;
+  }
+} */
+
 .section {
   margin-left: calc(var(--mantine-spacing-md));
   margin-right: calc(var(--mantine-spacing-md));

@@ -54,7 +54,6 @@ export default function Footer() {
 			<div className={classes.footer}>
 				<div className={classes.inner}>
 					<BrandLogo />
-
 					<Group className={classes.links}>{items}</Group>
 					<Social />
 				</div>

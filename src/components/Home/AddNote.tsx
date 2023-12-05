@@ -37,10 +37,10 @@ const AddNote = () => {
 	});
 	return (
 		<div>
-			<Container my={0} sx={{ minHeight: 450, display: 'flex', alignItems: 'center' }} >
+			<Container my={0} sx={{ minHeight: 450, display: 'flex', alignItems: 'center', padding: 0 }} >
 
 
-				<Paper withBorder sx={{ width: '100%' }} shadow="md" p={10} mt={10} radius="md">
+				<Paper withBorder sx={{ width: '100%' }} shadow="md" p={5} mt={10} radius="md">
 					<form onSubmit={form.onSubmit(async (values): Promise<void> => {
 
 

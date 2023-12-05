@@ -42,7 +42,7 @@ const NoteAddForm = ({ content, setContent }: { content: string, setContent: (s:
 	});
 	return (
 		<div>
-			<Container my={0} sx={{ minHeight: 300, display: 'flex', alignItems: 'center' }} >
+			<Container my={0} sx={{ minHeight: 300, display: 'flex', alignItems: 'center', padding: 0 }} >
 				<Paper withBorder sx={{ width: '100%' }} shadow="md" p={10} mt={10} radius="md">
 					<form onSubmit={form.onSubmit(async (values): Promise<void> => {
 						const res: any = await addnote({
