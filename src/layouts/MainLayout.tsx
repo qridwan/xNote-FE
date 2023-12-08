@@ -31,7 +31,7 @@ export function MainLayout() {
 				footer={
 					<Footer />}
 			>
-				<Box mih={'auto'}>
+				<Box mih={'82vh'}>
 					<Outlet />
 				</Box>
 			</AppShell>

@@ -25,7 +25,7 @@ export const apiSlice = createApi({
   baseQuery: async (args, api, extraOptions) => {
     const result = await baseQuery(args as FetchArgs, api, extraOptions);
 
-    if (result?.error?.status === 401) {
+    if (result?.error?.status === 403) {
       api.dispatch(userLoggedOut());
       localStorage.clear();
     }
