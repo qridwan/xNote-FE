@@ -76,8 +76,6 @@ yarn preview
 - `lint`: Lints the TypeScript and TypeScript React files using ESLint.
 - `preview`: Previews the built project.
 
-Absolutely! Adding a section on how to contribute to your project is a great idea to encourage collaboration. Here's a section you can include in your README:
-
 ---
 
 ## How to Contribute
@@ -113,4 +111,4 @@ I welcome contributions to improve xNote and make it even better! To contribute 
 
 If you encounter any issues or have suggestions for new features, please open an issue on the GitHub repository. Provide as much detail as possible to help us understand and address the problem or idea.
 
-Thank you for contributing to xNote! 🚀
+Thank you for contributing to xNote! 🚀 HapPy Coding ✨
