@@ -75,3 +75,42 @@ yarn preview
 - `build`: Builds the project using TypeScript and Vite.
 - `lint`: Lints the TypeScript and TypeScript React files using ESLint.
 - `preview`: Previews the built project.
+
+Absolutely! Adding a section on how to contribute to your project is a great idea to encourage collaboration. Here's a section you can include in your README:
+
+---
+
+## How to Contribute
+
+I welcome contributions to improve xNote and make it even better! To contribute to this project, please follow these steps:
+
+1. **Fork** the repository by clicking the 'Fork' button on the top right of the page.
+2. **Clone** your forked repository:  
+   ```
+   git clone https://github.com/your-username/xNote-fe.git
+   ```
+3. **Create a branch**:  
+   ```
+   git checkout -b feature/your-feature-name of issue/issue-number
+   ```
+4. **Make necessary changes** and commit those changes:  
+   ```
+   git add .
+   git commit -m "Add your feature or fix"
+   ```
+5. **Push changes** to your forked repository:  
+   ```
+   git push origin feature/your-feature-name
+   ```
+6. Create a **Pull Request** (PR) from your forked repository to the main xNote repository. Describe the changes you made in detail mentioning the issue number if you worked on any issue listed on project.
+
+### Code Guidelines
+
+- Follow the coding style and conventions already present in the project.
+- Write clear commit messages and PR descriptions.
+
+### Issues and Feature Requests
+
+If you encounter any issues or have suggestions for new features, please open an issue on the GitHub repository. Provide as much detail as possible to help us understand and address the problem or idea.
+
+Thank you for contributing to xNote! 🚀
