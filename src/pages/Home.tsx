@@ -1,4 +1,4 @@
-import { Button, Container, Grid, Modal, Text } from '@mantine/core';
+import { Button, Container, Grid, Modal, Skeleton, Text } from '@mantine/core';
 
 // import BookLists from '../components/Home/BookLists';
 import { useDisclosure } from '@mantine/hooks';
@@ -7,17 +7,22 @@ import { Dots } from '../atoms/Dots';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../redux/hook';
 import AddNote from '../components/Home/AddNote';
+import { useGettrashQuery } from '../redux/features/trash/trashApi';
 
 const Home = () => {
 	const { classes } = useStyles();
 	const navigate = useNavigate();
 	const [opened, { open, close }] = useDisclosure(false);
 	// const { data: featData, isLoading: featLoading } = useFeaturedbookQuery({});
-	const { user } = useAppSelector(state => state.auth)
+	const { user } = useAppSelector(state => state.auth);
+
+	const { isLoading } = useGettrashQuery({}, { refetchOnMountOrArgChange: true })
+
+	console.log('user: ', user);
 
 	return (
 		<Container size="lg" px="xs">
-			<Grid>
+			{isLoading ? <Skeleton variant="rectangle" animate height={"70vh"} width={"100%"} /> : <Grid>
 				{/* TOP */}
 				<Modal size={'lg'} bg={'dark'} opened={opened} onClose={close} centered>
 					<AddNote />
@@ -68,7 +73,7 @@ const Home = () => {
 					</ScrollArea> */}
 				</Grid.Col>
 
-			</Grid >
+			</Grid >}
 		</Container >
 	);
 };
