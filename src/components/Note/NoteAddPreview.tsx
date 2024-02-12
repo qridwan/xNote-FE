@@ -35,7 +35,7 @@ const NoteAddForm = ({ content, setContent }: { content: string, setContent: (s:
 		initialValues: {
 			title: '',
 			content: content,
-			notebook_id: null,
+			notebook_id: allNoteBooks?.data[0]?.id.toString(),
 			category_id: null,
 			color: '',
 		},
@@ -45,10 +45,11 @@ const NoteAddForm = ({ content, setContent }: { content: string, setContent: (s:
 			<Container my={0} sx={{ minHeight: 300, display: 'flex', alignItems: 'center', padding: 0 }} >
 				<Paper withBorder sx={{ width: '100%' }} shadow="md" p={10} mt={10} radius="md">
 					<form onSubmit={form.onSubmit(async (values): Promise<void> => {
+						console.log('values: ', values);
 						const res: any = await addnote({
 							...values,
 							content: content,
-							notebook_id: values?.notebook_id ? Number(values?.notebook_id) : null,
+							notebook_id: values?.notebook_id ? Number(values?.notebook_id) : allNoteBooks?.data[0]?.id.toString(),
 							category_id: values.category_id ? Number(values?.category_id) : null,
 						} as noteType);
 						const isSuccess = Boolean(res?.data?.status === 'Success');
@@ -76,6 +77,7 @@ const NoteAddForm = ({ content, setContent }: { content: string, setContent: (s:
 
 						<NativeSelect
 							label="Choose Notebook"
+
 							data={convertSchema.NotebookConvertedSchema(allNoteBooks?.data as notebookType[])}
 							{...form.getInputProps('notebook_id')}
 						/>
