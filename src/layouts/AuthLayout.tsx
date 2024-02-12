@@ -84,9 +84,6 @@ export default function AuthLayout() {
 						{/* {items} */}
 						<BrandLogo />
 					</Group>
-
-
-
 					<Social />
 				</Container>
 			</Header>
