@@ -1,4 +1,4 @@
-import { Box, Container, Grid, ScrollArea, Tabs, Text } from '@mantine/core';
+import { Box, Container, ScrollArea, Tabs, Text } from '@mantine/core';
 import { useState } from 'react';
 import NoteAddForm from '../components/Note/NoteAddPreview';
 import { IconEye, IconNotes } from '@tabler/icons-react';

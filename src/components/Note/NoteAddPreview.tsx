@@ -3,7 +3,6 @@ import {
 	TextInput,
 	Paper,
 	Text,
-	Container,
 	Button,
 	ColorInput,
 	NativeSelect,
