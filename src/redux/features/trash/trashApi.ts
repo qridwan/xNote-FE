@@ -20,6 +20,13 @@ const trashApi = api.injectEndpoints({
       }),
       invalidatesTags: ["trash", "notes"],
     }),
+    deleteAllTrash: builder.mutation({
+      query: () => ({
+        url: `/trash/permanent-delete-all`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["trash", "notes"],
+    }),
     addtrash: builder.mutation({
       query: (data: trashType) => ({
         url: `/trash/create`,
@@ -31,5 +38,9 @@ const trashApi = api.injectEndpoints({
   }),
 });
 
-export const { useDeletetrashMutation, useGettrashQuery, useAddtrashMutation } =
-  trashApi;
+export const {
+  useDeletetrashMutation,
+  useGettrashQuery,
+  useAddtrashMutation,
+  useDeleteAllTrashMutation,
+} = trashApi;
