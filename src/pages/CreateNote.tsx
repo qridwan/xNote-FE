@@ -1,27 +1,26 @@
-import { Box, Container, Grid, ScrollArea, Text } from '@mantine/core';
+import { Box, Container, Grid, ScrollArea, Tabs, Text } from '@mantine/core';
 import { useState } from 'react';
-import { useAppSelector } from '../redux/hook';
 import NoteAddForm from '../components/Note/NoteAddPreview';
+import { IconEye, IconNotes } from '@tabler/icons-react';
 
 const CreateNote = () => {
-	const { user } = useAppSelector(state => state.auth)
 	const [content, setContent] = useState<string>('');
 
 	return (
 		<Container size="lg" px="xs" mih={'70vh'} sx={{ sm: { padding: 0 } }}>
-			<Grid >
-				{/* editor */}
-				<Grid.Col sm={12} md={6} mt={10} sx={{ overflowY: 'auto' }}>
-					{user?.username && <>
+			<Tabs defaultValue="text">
+				<Tabs.List>
+					<Tabs.Tab value="text" icon={<IconNotes size="0.8rem" />}>Text</Tabs.Tab>
+					<Tabs.Tab value="preview" icon={<IconEye size="0.8rem" />}>Preview</Tabs.Tab>
+				</Tabs.List>
+
+				<Tabs.Panel value="text" pt="xs">
+					<>
 						<NoteAddForm content={content} setContent={setContent} />
-					</>}
-				</Grid.Col>
+					</>
+				</Tabs.Panel>
 
-
-
-				{/* preview note */}
-				<Grid.Col sm={12} md={6}>
-
+				<Tabs.Panel value="preview" pt="xs">
 					<ScrollArea h={'75vh'} type="never" >
 						<Text fz="xl" color='grey' align='center' fw={700} my={10}>
 							Preview Note
@@ -33,8 +32,9 @@ const CreateNote = () => {
 							<div dangerouslySetInnerHTML={{ __html: content }} style={{ marginBottom: '30px' }}></div>
 						</Box>
 					</ScrollArea>
-				</Grid.Col>
-			</Grid >
+				</Tabs.Panel>
+			</Tabs>
+
 		</Container >
 	);
 };
