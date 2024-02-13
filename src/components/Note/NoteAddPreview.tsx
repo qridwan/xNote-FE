@@ -21,7 +21,7 @@ import { useGetnotebookQuery } from '../../redux/features/notebook/notebookApi';
 import { notebookType } from '../../types/notebook';
 import { convertSchema } from '../../utils/convertSchema';
 
-const NoteAddForm = ({ content, setContent }: { content: string, setContent: (s: string) => void }) => {
+const NoteAddForm = ({ content, setContent, }: { content: string, setContent: (s: string) => void }) => {
 	const [addnote, { isLoading }] = useAddnoteMutation();
 	const [tags, setTags] = useState<string[]>([]);
 	const navigate = useNavigate();
@@ -42,67 +42,67 @@ const NoteAddForm = ({ content, setContent }: { content: string, setContent: (s:
 	});
 	return (
 		<div>
-			<Container my={0} sx={{ minHeight: 300, display: 'flex', alignItems: 'center', padding: 0 }} >
-				<Paper withBorder sx={{ width: '100%' }} shadow="md" p={10} mt={10} radius="md">
-					<form onSubmit={form.onSubmit(async (values): Promise<void> => {
-						console.log('values: ', values);
-						const res: any = await addnote({
-							...values,
-							content: content,
-							notebook_id: values?.notebook_id ? Number(values?.notebook_id) : allNoteBooks?.data[0]?.id.toString(),
-							category_id: values.category_id ? Number(values?.category_id) : null,
-						} as noteType);
-						const isSuccess = Boolean(res?.data?.status === 'Success');
-						const icon = isSuccess ? <IconCheck /> : <IconX color="red" />;
-						notify(isSuccess, "New note successfully added!", icon);
+			<Paper withBorder sx={{ width: '100%' }} shadow="md" p={10} mt={10} radius="md">
+				<form onSubmit={form.onSubmit(async (values): Promise<void> => {
+					console.log('values: ', values);
+					const res: any = await addnote({
+						...values,
+						color: values.color ? values.color : '#C5D899',
+						content: content,
+						notebook_id: values?.notebook_id ? Number(values?.notebook_id) : allNoteBooks?.data[0]?.id.toString(),
+						category_id: values.category_id ? Number(values?.category_id) : null,
+					} as noteType);
+					const isSuccess = Boolean(res?.data?.status === 'Success');
+					const icon = isSuccess ? <IconCheck /> : <IconX color="red" />;
+					notify(isSuccess, "New note successfully added!", icon);
 
-						if (res?.data.status === 'Success') {
-							form.reset();
+					if (res?.data.status === 'Success') {
+						form.reset();
 
-							setContent('')
-							navigate('/all')
-						}
-					})}>
+						setContent('')
+						navigate('/all')
+					}
+				})}>
 
-						<Text color='grey' align='center' fw={800}>ADD NEW NOTE</Text>
-						<TextInput label="Title" placeholder="Think and Grow Rich" required {...form.getInputProps('title')} />
 
-						<Box >
-							<Text color='dark' align='start' fz={14} fw={500}>Description *</Text>
-							<Editor
-								handleChangeEditor={handleChangeEditor}
-								content={content}
-							/>
-						</Box>
+					<Text color='grey' align='center' fw={800}>ADD NEW NOTE</Text>
+					<TextInput label="Title" placeholder="Think and Grow Rich" required {...form.getInputProps('title')} />
 
-						<NativeSelect
-							label="Choose Notebook"
-
-							data={convertSchema.NotebookConvertedSchema(allNoteBooks?.data as notebookType[])}
-							{...form.getInputProps('notebook_id')}
+					<Box >
+						<Text color='dark' align='start' fz={14} fw={500}>Description *</Text>
+						<Editor
+							handleChangeEditor={handleChangeEditor}
+							content={content}
 						/>
-						<MultiSelect
-							label="Add Tags"
-							data={tags}
-							placeholder="Choose/Create Tags"
-							searchable
-							creatable
-							{...form.getInputProps('tags')}
-							getCreateLabel={(query) => `+ Create ${query}`}
-							onCreate={(query) => {
-								const item = { value: query, label: query };
-								setTags((current: any) => [...current, item]);
-								return item;
-							}}
-						/>
-						<ColorInput label="Choose a color" {...form.getInputProps('color')} defaultValue="#C5D899" />
+					</Box>
 
-						<Button disabled={isLoading} fullWidth gradient={{ from: 'indigo', to: 'cyan' }} mt="xl" color='grey' type='submit' >
-							{!isLoading ? 'CREATE' : 'loading...'}
-						</Button>
-					</form>
-				</Paper>
-			</Container>
+					<NativeSelect
+						label="Choose Notebook"
+
+						data={convertSchema.NotebookConvertedSchema(allNoteBooks?.data as notebookType[])}
+						{...form.getInputProps('notebook_id')}
+					/>
+					<MultiSelect
+						label="Add Tags"
+						data={tags}
+						placeholder="Choose/Create Tags"
+						searchable
+						creatable
+						{...form.getInputProps('tags')}
+						getCreateLabel={(query) => `+ Create ${query}`}
+						onCreate={(query) => {
+							const item = { value: query, label: query };
+							setTags((current: any) => [...current, item]);
+							return item;
+						}}
+					/>
+					<ColorInput label="Choose a color" {...form.getInputProps('color')} defaultValue="#C5D899" />
+
+					<Button disabled={isLoading} fullWidth gradient={{ from: 'indigo', to: 'cyan' }} mt="xl" color='grey' type='submit' >
+						{!isLoading ? 'CREATE' : 'loading...'}
+					</Button>
+				</form>
+			</Paper>
 		</div >
 	);
 };
