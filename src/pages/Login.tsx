@@ -13,8 +13,9 @@ import { hasLength, isEmail, useForm } from '@mantine/form';
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from '../redux/features/auth/authApi';
 import { ILoginBody } from '../types/user';
-import { IconCheck, IconX } from '@tabler/icons-react';
+import { IconCheck, IconError404, IconX } from '@tabler/icons-react';
 import notify from '../utils/notify';
+import { notifications } from '@mantine/notifications';
 
 export default function Login() {
 	const navigate = useNavigate();
@@ -54,8 +55,18 @@ export default function Login() {
 					const res: any = await login(values);
 					const isSuccess = Boolean(res?.data?.status === 'Success');
 					const icon = isSuccess ? <IconCheck /> : <IconX color="red" />;
-					notify(isSuccess, "Login Success!", icon);
-					isSuccess && navigate('/all')
+
+
+					if (res?.error) {
+						notifications.show({
+							title: "Login Failed!",
+							message: res.error.data.errorMessage ?? res.error.data.message,
+							icon: <IconError404 />,
+						})
+					} else {
+						notify(isSuccess, "Login Success!", icon);
+						isSuccess && navigate('/all')
+					}
 				})}>
 
 					<TextInput label="Email" placeholder="mail@qridwan.com" required {...form.getInputProps('email')} />

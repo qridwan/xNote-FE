@@ -11,9 +11,10 @@ import {
 import { hasLength, isEmail, useForm } from '@mantine/form';
 import { Link, useNavigate } from "react-router-dom";
 import { useRegisterMutation } from '../redux/features/auth/authApi';
-import { IconX } from '@tabler/icons-react';
+import { IconError404, IconX } from '@tabler/icons-react';
 import { IconCheck } from '@tabler/icons-react';
 import notify from '../utils/notify';
+import { notifications } from '@mantine/notifications';
 
 export default function SignUp() {
 	const [register, { isLoading }] = useRegisterMutation();
@@ -50,8 +51,18 @@ export default function SignUp() {
 				const res: any = await register(values);
 				const isSuccess = Boolean(res?.data?.status === 'Success');
 				const icon = isSuccess ? <IconCheck /> : <IconX color="red" />;
-				notify(isSuccess, "Sign up Success", icon);
-				isSuccess && navigate('/all');
+
+
+				if (res?.error) {
+					notifications.show({
+						title: "Registration Error",
+						message: res.error.data.message,
+						icon: <IconError404 color="red" />,
+					})
+				} else {
+					notify(isSuccess, "Sign up Success", icon);
+					isSuccess && navigate('/all');
+				}
 
 			})}>
 				<Paper withBorder shadow="md" p={30} mt={30} radius="md">
