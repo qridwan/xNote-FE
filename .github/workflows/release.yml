@@ -24,10 +24,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
-          tag_name: v${{ github.run_number }}
-          release_name: Release ${{ github.run_number }}
+          tag_name: v1.0.${{ github.run_number }}
+          release_name: xNote@v1.0.${{ github.run_number }}
           body: |
             Changes in this release:
-            - Upload first release
+            - Check release
           draft: false
           prerelease: false
