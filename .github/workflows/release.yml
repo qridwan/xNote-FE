@@ -1,61 +1,33 @@
-on:
-  push:
-    # Sequence of patterns matched against refs/tags
-    tags:
-      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
-
 name: Create Release
 
+on:
+  push:
+    branches:
+      - main
+
 jobs:
-  build:
+  create_release:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Set up Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: v${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
           body: |
-            Changes in this Release
-            - First Change
-            - Second Change
+            Changes in this release:
+            - Upload first release
           draft: false
           prerelease: false
-
-# ##
-# # Publish new action tag(s) for downstream consumption
-# ##
-# name: Publish
-
-# # Manual or automatic release
-# on:
-#   release:
-#     types: [published, edited]
-
-# jobs:
-#   publish:
-#     runs-on: ubuntu-latest
-#     steps:
-#       # Release with semantic tag like v1.0.3
-#       - name: Checkout
-#         uses: actions/checkout@v2
-#         with:
-#           ref: ${{ github.event.release.tag_name }}
-          
-#       - name: Setup Node
-#         uses: actions/setup-node@v2
-      
-#       - run: npm run build
-
-#       # Compile dist/index.js and bundle with action.yml
-#       # Force push major and minor tags, e.g. v1, v1.0
-#       # See documentation: https://github.com/JasonEtco/build-and-tag-action
-#       - uses: JasonEtco/build-and-tag-action@v2
-#         env:
-#           GITHUB_TOKEN: ${{ github.token }}
