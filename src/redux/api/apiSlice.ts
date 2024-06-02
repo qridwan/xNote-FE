@@ -31,6 +31,6 @@ export const apiSlice = createApi({
     }
     return result;
   },
-  tagTypes: ["reviews", "books", "notebook", "notes", "trash"],
+  tagTypes: ["reviews", "books", "notebook", "notes", "trash", "single_note"],
   endpoints: () => ({}),
 });

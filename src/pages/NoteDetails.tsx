@@ -36,7 +36,7 @@ import { formatDate } from '../helpers/dates';
 const NoteDetails = () => {
 	const { id: noteId } = useParams();
 	const [openedEdit, { close: closeEdit }] = useDisclosure(false);
-	const { data: note } = useSinglenoteQuery(noteId as string);
+	const { data: note, refetch } = useSinglenoteQuery(noteId as string, { refetchOnMountOrArgChange: true });
 	const navigate = useNavigate();
 
 	const { classes } = useStyles();
@@ -44,6 +44,8 @@ const NoteDetails = () => {
 	const { user } = useAppSelector(state => state.auth)
 	const isLightBG = isColorLight(color as string);
 	const [deletetrash, { isLoading }] = useDeletetrashMutation();
+
+
 
 
 	return (
@@ -115,7 +117,7 @@ const NoteDetails = () => {
 
 
 						{/* Edit modal */}
-						<Modal size="calc(100vw - 60vw)" opened={openedEdit} onClose={closeEdit} title="" centered>
+						<Modal size="calc(100vw - 60vw)" opened={openedEdit} onClose={refetch} title="" centered>
 							<EditNote note={note?.data as noteType} close={closeEdit} />
 						</Modal>
 

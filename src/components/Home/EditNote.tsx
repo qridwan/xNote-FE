@@ -27,11 +27,9 @@ const EditNote = ({ note, close }: { note: noteType, close?: () => void }) => {
 	const [editnote, { isLoading }] = useEditnoteMutation();
 	const [tags, setTags] = useState<string[]>([]);
 	const [content, setContent] = useState<string>(note.content);
-
 	const handleChangeEditor = ({ editor }: any) => {
 		setContent(editor?.getHTML() as string);
 	};
-
 	const form = useForm({
 		initialValues: {
 			title: note.title,
@@ -42,29 +40,21 @@ const EditNote = ({ note, close }: { note: noteType, close?: () => void }) => {
 			id: note?.id,
 		},
 	});
+
 	return (
 		<div>
 			<Container my={0} sx={{ minHeight: 450, display: 'flex', alignItems: 'center' }} >
-
-
 				<Paper withBorder sx={{ width: '100%' }} shadow="md" p={10} mt={10} radius="md">
 					<form onSubmit={form.onSubmit(async (values): Promise<void> => {
-
-
 						const res: any = await editnote({
 							...values,
 							content: content,
 							notebook_id: values?.notebook_id ? Number(values?.notebook_id) : null,
 							category_id: values.category_id ? Number(values?.category_id) : null,
 						} as noteType);
-
-
 						const isSuccess = Boolean(res?.data?.status === 'Success');
 						const icon = isSuccess ? <IconCheck /> : <IconX color="red" />;
 						notify(isSuccess, "Note successfully updated!", icon);
-
-
-
 						if (isSuccess) {
 							form.reset();
 							close && close();
