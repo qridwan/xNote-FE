@@ -23,7 +23,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { noteType } from '../types/note';
 import { useAppSelector } from '../redux/hook';
 import { IconX } from '@tabler/icons-react';
-// import { IconTrashFilled } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import EditNote from '../components/Home/EditNote';
 import { useDeletetrashMutation } from '../redux/features/trash/trashApi';
@@ -31,17 +30,13 @@ import notify from '../utils/notify';
 import CardAction from '../atoms/CardAction';
 import isColorLight from '../utils/isColorLight';
 import { formatDate } from '../helpers/dates';
-// import Editnote from '../components/noteDetails/Editnote';
 
 
 
 const NoteDetails = () => {
 	const { id: noteId } = useParams();
-	// const [opened, { toggle, close }] = useDisclosure(false);
 	const [openedEdit, { close: closeEdit }] = useDisclosure(false);
 	const { data: note } = useSinglenoteQuery(noteId as string);
-	console.log('note: ', note);
-	// const [deletenote, { isLoading: isDeleting }] = useDeletenoteMutation();
 	const navigate = useNavigate();
 
 	const { classes } = useStyles();
