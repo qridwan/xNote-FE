@@ -26,6 +26,7 @@ const noteApi = api.injectEndpoints({
     }),
     singlenote: builder.query({
       query: (id: string) => `/notes/${id}`,
+      providesTags: ["single_note"],
     }),
     featurednote: builder.query({
       query: () => `/note/featured`,
@@ -39,7 +40,7 @@ const noteApi = api.injectEndpoints({
         url: `/notes/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["notes", "trash"],
+      invalidatesTags: ["notes", "trash", "single_note"],
     }),
     addnote: builder.mutation({
       query: (data: noteType) => ({
@@ -55,7 +56,7 @@ const noteApi = api.injectEndpoints({
         method: "PATCH",
         body: data,
       }),
-      invalidatesTags: ["notes"],
+      invalidatesTags: ["notes", "single_note"],
     }),
     addReview: builder.mutation({
       query: (data: {
