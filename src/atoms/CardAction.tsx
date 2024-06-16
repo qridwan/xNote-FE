@@ -26,12 +26,9 @@ const CardAction = ({ note }: { note: noteType }) => {
 				</Menu.Target>
 
 				<Menu.Dropdown>
-
-
 					<Menu.Item
 						icon={<IconEdit size={rem(14)} />}
 						onClick={open}
-
 					>
 						Edit Note
 					</Menu.Item>

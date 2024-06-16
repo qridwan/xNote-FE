@@ -1,6 +1,4 @@
 import { Button, Container, Grid, Modal, Skeleton, Text } from '@mantine/core';
-
-// import BookLists from '../components/Home/BookLists';
 import { useDisclosure } from '@mantine/hooks';
 import { createStyles, Title, rem } from '@mantine/core';
 import { Dots } from '../atoms/Dots';
@@ -8,17 +6,18 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../redux/hook';
 import AddNote from '../components/Home/AddNote';
 import { useGettrashQuery } from '../redux/features/trash/trashApi';
+import { useEffect } from 'react';
 
 const Home = () => {
 	const { classes } = useStyles();
 	const navigate = useNavigate();
 	const [opened, { open, close }] = useDisclosure(false);
-	// const { data: featData, isLoading: featLoading } = useFeaturedbookQuery({});
 	const { user } = useAppSelector(state => state.auth);
+	const { isLoading } = useGettrashQuery({}, { refetchOnMountOrArgChange: true });
 
-	const { isLoading } = useGettrashQuery({}, { refetchOnMountOrArgChange: true })
-
-	console.log('user: ', user);
+	useEffect(() => {
+		user?.username && navigate("/all")
+	}, [user])
 
 	return (
 		<Container size="lg" px="xs">
