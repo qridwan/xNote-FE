@@ -13,8 +13,7 @@ import { hasLength, isEmail, useForm } from '@mantine/form';
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from '../redux/features/auth/authApi';
 import { ILoginBody } from '../types/user';
-import { IconCheck, IconError404, IconX } from '@tabler/icons-react';
-import notify from '../utils/notify';
+import { IconError404 } from '@tabler/icons-react';
 import { notifications } from '@mantine/notifications';
 
 export default function Login() {
@@ -54,7 +53,7 @@ export default function Login() {
 				<form onSubmit={form.onSubmit(async (values: ILoginBody): Promise<void> => {
 					const res: any = await login(values);
 					const isSuccess = Boolean(res?.data?.status === 'Success');
-					const icon = isSuccess ? <IconCheck /> : <IconX color="red" />;
+					// const icon = isSuccess ? <IconCheck /> : <IconX color="red" />;
 
 
 					if (res?.error) {

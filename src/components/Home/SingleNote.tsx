@@ -10,7 +10,6 @@ import {
 	Flex,
 	ActionIcon,
 	Tooltip,
-	Kbd,
 } from '@mantine/core';
 import { noteType } from '../../types/note';
 import { Link } from 'react-router-dom';

@@ -1,5 +1,5 @@
-import { Container, Grid, ScrollArea, Text } from '@mantine/core';
-import { useEffect, useState } from 'react';
+import { Container, Grid, Text } from '@mantine/core';
+import { useState } from 'react';
 import { useGetnotesbyfolderQuery } from '../redux/features/notes/noteApi';
 import NoteLists from '../components/Home/NoteLists';
 import { useParams } from 'react-router-dom';
