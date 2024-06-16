@@ -1,4 +1,4 @@
-import { Box, Container, Grid, ScrollArea, Text } from '@mantine/core';
+import { Box, Container, Grid, Text } from '@mantine/core';
 import { useState } from 'react';
 import { useGetnotesQuery } from '../redux/features/notes/noteApi';
 import NoteLists from '../components/Home/NoteLists';

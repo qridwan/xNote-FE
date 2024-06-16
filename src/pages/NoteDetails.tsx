@@ -30,7 +30,6 @@ import notify from '../utils/notify';
 import CardAction from '../atoms/CardAction';
 import isColorLight from '../utils/isColorLight';
 import { formatDate } from '../helpers/dates';
-import BoiLoader from '../atoms/Loader';
 import NoteDetailsSkeleton from '../components/skeletons/NoteDetails';
 
 const NoteDetails = () => {
