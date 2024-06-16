@@ -42,6 +42,7 @@ const routes = createBrowserRouter([
 				path: '/notebook/:id',
 				element: <NotesByNotebook />,
 			},
+
 			{
 				path: '/all',
 				element: <PrivateRoute>

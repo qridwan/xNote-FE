@@ -13,13 +13,16 @@ const useStyles = createStyles((theme) => ({
 		backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[1],
 		borderTop: `${rem(1)} solid ${theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]
 			}`,
+		position: "absolute",
+		bottom: 0,
+		width: "100%"
 	},
 
 	inner: {
 		display: 'flex',
 		justifyContent: 'space-around',
 		alignItems: 'center',
-		padding: `${theme.spacing.md} ${theme.spacing.md}`,
+		// padding: `${theme.spacing.xs} ${theme.spacing.xs}`,
 		[theme.fn.smallerThan('sm')]: {
 			flexDirection: 'column',
 		},
@@ -27,8 +30,8 @@ const useStyles = createStyles((theme) => ({
 
 	links: {
 		[theme.fn.smallerThan('sm')]: {
-			marginTop: theme.spacing.lg,
-			marginBottom: theme.spacing.sm,
+			marginTop: theme.spacing.xs,
+			marginBottom: theme.spacing.xs,
 		},
 	},
 }));
@@ -53,7 +56,7 @@ export default function Footer() {
 		<>
 			<div className={classes.footer}>
 				<div className={classes.inner}>
-					<BrandLogo />
+					<BrandLogo textSize='sm' imgHeight={20} />
 					<Group className={classes.links}>{items}</Group>
 					<Social />
 				</div>

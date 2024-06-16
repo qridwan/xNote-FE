@@ -64,7 +64,8 @@ export default function Login() {
 							icon: <IconError404 />,
 						})
 					} else {
-						notify(isSuccess, "Login Success!", icon);
+
+						// notify(isSuccess, "Login Success!", icon);
 						isSuccess && navigate('/all')
 					}
 				})}>

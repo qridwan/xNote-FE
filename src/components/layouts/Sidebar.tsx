@@ -8,6 +8,8 @@ import {
 	Flex,
 	useMantineTheme,
 	Loader,
+	Box,
+	ScrollArea,
 } from '@mantine/core';
 import { IconBulb, IconPlus, IconTrash, IconArrowRight, IconSquarePlus } from '@tabler/icons-react';
 //   import { UserButton } from '../UserButton/UserButton';
@@ -116,7 +118,10 @@ export function XSidebar({ toggle }: { toggle: () => void }) {
 						</ActionIcon>
 					</Tooltip>
 				</Flex>
-				<div className={classes.collections}>{collectionLinks ?? ''}</div>
+				<Box component={ScrollArea} h={"60vh"} className={classes.collections}
+				>
+					{collectionLinks ?? ''}
+				</Box>
 			</div>
 		</nav>
 	);

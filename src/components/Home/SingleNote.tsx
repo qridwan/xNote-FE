@@ -10,6 +10,7 @@ import {
 	Flex,
 	ActionIcon,
 	Tooltip,
+	Kbd,
 } from '@mantine/core';
 import { noteType } from '../../types/note';
 import { Link } from 'react-router-dom';
@@ -74,30 +75,28 @@ export function SingleNote({ note }: { note: noteType }) {
 
 	return (
 		<Card withBorder h="100%" color={color} shadow='sm' radius="md" className={cx(classes.card)} >
-			<Card.Section mt={-20}>
-				<Box sx={{ minHeight: 50, width: '100%', background: color ?? 'grey', display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
-					<Text className={classes.title} color={isLightBG ? '#4A6098' : 'white'} fw={700} >
-						{title}
-					</Text>
+			<Link to={trash_id ? '' : `/note/${id as string}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+				<Card.Section mt={-20}>
+					<Box sx={{ minHeight: 50, width: '100%', background: color ?? 'grey', display: 'flex', justifyContent: 'center', alignItems: 'center', }} >
+						<Text truncate="end" className={classes.title} color={isLightBG ? '#4A6098' : 'white'} fw={700} >
+							{title}{title}
+						</Text>
+					</Box>
+					{create_time && <Text align='center' fz="xs" fw={600} color={'#4A6098'}>
+						{formatDate(create_time)}
+					</Text>}
+					{deleted_at && <Text align='center' fz="xs" fw={600} color={'red'}>
+						Deleted At: {formatDate(deleted_at)}
+					</Text>}
+				</Card.Section>
 
 
-				</Box>
-				{create_time && <Text align='center' fz="xs" fw={600} color={'#4A6098'}>
-					{formatDate(create_time)}
-				</Text>}
-				{deleted_at && <Text align='center' fz="xs" fw={600} color={'red'}>
-					Deleted At: {formatDate(deleted_at)}
-				</Text>}
-			</Card.Section>
 
-
-
-			{/* <Badge className={classes.rating} variant="gradient" gradient={{ from: 'yellow', to: 'red' }}>
+				{/* <Badge className={classes.rating} variant="gradient" gradient={{ from: 'yellow', to: 'red' }}>
 				{category}
 			</Badge> */}
 
-			<Link to={trash_id ? '' : `/note/${id as string}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-				<div dangerouslySetInnerHTML={{ __html: content.slice(0, 120) }} style={{ marginBottom: '30px' }}></div>
+				<div dangerouslySetInnerHTML={{ __html: content.length > 50 ? `${content.slice(0, 50)}...` : content }} style={{ marginBottom: '30px' }}></div>
 			</Link>
 			<Box className={classes.footer}>
 				<Flex justify={'space-between'} >
@@ -135,7 +134,9 @@ export function SingleNote({ note }: { note: noteType }) {
 								<IconTrash size="1rem" color={'red'} />
 							</ActionIcon></Tooltip>
 
-						</> : <CardAction note={note} />}
+						</> : <>
+							<CardAction note={note} />
+						</>}
 
 
 					</Group>

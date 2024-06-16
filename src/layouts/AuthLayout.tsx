@@ -4,7 +4,6 @@ import BrandLogo from '../atoms/BrandLogo';
 import { Outlet } from 'react-router-dom';
 import Social from '../components/shared/Social';
 
-
 const useStyles = createStyles((theme) => ({
 	inner: {
 		display: 'flex',
@@ -65,30 +64,22 @@ const useStyles = createStyles((theme) => ({
 	},
 }));
 
-
-
 export default function AuthLayout() {
 	const [opened, { toggle }] = useDisclosure(false);
-
-	// console.log('setActive: ', setActive);
 	const { classes } = useStyles();
-
 
 	return (
 		<>
-
 			<Header height={56} mb={40}>
 				<Container className={classes.inner}>
 					<Burger opened={opened} onClick={toggle} size="sm" className={classes.burger} />
 					<Group className={classes.links} spacing={5}>
-						{/* {items} */}
 						<BrandLogo />
 					</Group>
 					<Social />
 				</Container>
 			</Header>
 			<Outlet />
-
 		</>
 	);
 }

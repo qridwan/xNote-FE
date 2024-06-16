@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { useAppSelector } from '../redux/hook';
 
 
-export function BrandLogo() {
+export function BrandLogo({ imgHeight, textSize }: { readonly imgHeight?: number, readonly textSize?: string }) {
 	const { user } = useAppSelector(state => state.auth);
 	const { username } = user || {};
 	return (
@@ -16,9 +16,9 @@ export function BrandLogo() {
 					align={'center'}
 					py={4}
 				>
-					<img src={BrandLogoPNG} alt="" height={50} />
+					<img src={BrandLogoPNG} alt="" height={imgHeight ?? 50} />
 					<Text
-						size="xl"
+						size={textSize ?? "xl"}
 						fw={900}
 						variant="gradient"
 						gradient={{ from: 'rgba(0, 0, 0, 1)', to: 'gray', deg: 111 }}
