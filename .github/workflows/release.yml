@@ -4,44 +4,30 @@ on:
   push:
     branches:
       - main
+
 jobs:
-  build:
+  create_release:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
+
+      - name: Set up Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
 
       - name: Create Release
-        uses: ncipollo/release-action@v1
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
-          token: ${{ secrets.TOKEN }}
-          draft: true
-          generateReleaseNotes: true
-          makeLatest: true
-# jobs:
-#   create_release:
-#     name: Create Release
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
-
-#       - name: Set up Git
-#         run: |
-#           git config --local user.email "action@github.com"
-#           git config --local user.name "GitHub Action"
-
-#       - name: Create Release
-#         id: create_release
-#         uses: actions/create-release@v1
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.TOKEN }}
-#         with:
-#           tag_name: v1.0.${{ github.run_number }}
-#           release_name: xNote@v1.0.${{ github.run_number }}
-#           body: |
-#             Changes in this release:
-#             - Check release
-#           draft: false
-#           prerelease: false
+          tag_name: v1.0.${{ github.run_number }}
+          release_name: xNote@v1.0.${{ github.run_number }}
+          body: |
+            Changes in this release:
+            - Check release
+          draft: false
+          prerelease: false
