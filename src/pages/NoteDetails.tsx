@@ -1,6 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
 	Text,
 	ActionIcon,
@@ -17,12 +14,11 @@ import {
 	createStyles,
 	ScrollArea,
 } from '@mantine/core';
-import { IconArrowLeft, IconCheck, IconRotate } from '@tabler/icons-react';
+import { IconArrowLeft, IconCheck, IconRotate, IconX } from '@tabler/icons-react';
 import { useSinglenoteQuery } from '../redux/features/notes/noteApi';
 import { useNavigate, useParams } from 'react-router-dom';
 import { noteType } from '../types/note';
 import { useAppSelector } from '../redux/hook';
-import { IconX } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import EditNote from '../components/Home/EditNote';
 import { useDeletetrashMutation } from '../redux/features/trash/trashApi';

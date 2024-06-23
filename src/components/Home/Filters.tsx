@@ -1,7 +1,4 @@
-/* eslint-disable no-unsafe-optional-chaining */
-import { Box, NativeSelect, Text } from '@mantine/core';
-
-import { Group } from '@mantine/core';
+import { Box, NativeSelect, Text, Group } from '@mantine/core';
 import { YearPicker } from '@mantine/dates';
 
 export default function Filters({ yearValue, setYearValue, setGenreValue }: any) {

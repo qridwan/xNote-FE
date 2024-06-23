@@ -1,6 +1,5 @@
-import { Button, Container, Grid, Modal, Skeleton, Text } from '@mantine/core';
+import { Button, Container, Grid, Modal, Skeleton, Text, createStyles, Title, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { createStyles, Title, rem } from '@mantine/core';
 import { Dots } from '../atoms/Dots';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../redux/hook';
@@ -17,7 +16,7 @@ const Home = () => {
 
 	useEffect(() => {
 		user?.username && navigate("/all")
-	}, [user])
+	}, [user, navigate])
 
 	return (
 		<Container size="lg" px="xs">
