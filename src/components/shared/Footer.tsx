@@ -13,7 +13,7 @@ const useStyles = createStyles((theme) => ({
 		backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[1],
 		borderTop: `${rem(1)} solid ${theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]
 			}`,
-		position: "absolute",
+		// position: "absolute",
 		bottom: 0,
 		width: "100%"
 	},
@@ -52,17 +52,13 @@ export default function Footer() {
 		</Link>
 	));
 
-	return (
-		<>
-			<div className={classes.footer}>
-				<div className={classes.inner}>
-					<BrandLogo textSize='sm' imgHeight={20} />
-					<Group className={classes.links}>{items}</Group>
-					<Social />
-				</div>
-			</div>
-		</>
-	);
+	return (<div className={classes.footer}>
+		<div className={classes.inner}>
+			<BrandLogo textSize='sm' imgHeight={20} />
+			<Group className={classes.links}>{items}</Group>
+			<Social />
+		</div>
+	</div>);
 }
 
 const links = [
