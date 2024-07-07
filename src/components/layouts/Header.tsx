@@ -134,14 +134,17 @@ export default XHeader;
 
 const useStyles = createStyles((theme) => ({
 	header: {
-		paddingTop: theme.spacing.sm,
+		// paddingTop: theme.spacing.sm,
 		backgroundColor: theme.colors.gray[1],
 		borderBottom: theme.colors.yellow,
-		// marginBottom: rem(10),
+		position: "fixed",
+		top: 0,
+		width: "100%",
+		zIndex: 1,
 	},
 
 	mainSection: {
-		paddingBottom: theme.spacing.sm,
+		// paddingBottom: theme.spacing.sm,
 	},
 
 	user: {

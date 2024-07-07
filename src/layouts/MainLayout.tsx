@@ -1,4 +1,4 @@
-import { AppShell, Box, ScrollArea } from "@mantine/core";
+import { AppShell, Box, rem } from "@mantine/core";
 import { Outlet, useNavigate } from "react-router-dom";
 import Footer from "../components/shared/Footer";
 import XHeader from "../components/layouts/Header";
@@ -51,7 +51,7 @@ export function MainLayout() {
 			})}
 			footer={<Footer />}
 		>
-			<Box h={"85vh"} style={{ paddingBottom: "2vh" }} component={ScrollArea}>
+			<Box mih={"90vh"} ml={rem('350px')} mt={rem('40px')} style={{ padding: "2vh", }} >
 				<Outlet />
 			</Box>
 		</AppShell>

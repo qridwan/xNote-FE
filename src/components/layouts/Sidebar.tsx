@@ -76,23 +76,24 @@ export function XSidebar({ toggle }: { toggle: () => void }) {
 		<nav className={classes.navbar}>
 			<div className={classes.section}>
 				{/* <UserButton /> */}
-			</div>
-			<SearchArea value={value} onChange={(event) => {
-				setValue(event.currentTarget.value)
-				if (event.currentTarget.value === '') {
-					setSearchTerm('')
-				}
-			}} rightSection={
-				<ActionIcon disabled={isLoading} onClick={() => {
+				<SearchArea value={value} onChange={(event) => {
+					setValue(event.currentTarget.value)
+					if (event.currentTarget.value === '') {
+						setSearchTerm('')
+					}
+				}} rightSection={
+					<ActionIcon disabled={isLoading} onClick={() => {
 
-					setSearchTerm(value)
-				}} size={32} radius="xl" color={theme.primaryColor} variant="filled">
-					{(
-						!isLoading ? <IconArrowRight size="1.1rem" stroke={1.5} />
-							: <Loader size="xs" color='white' />
-					)}
-				</ActionIcon>
-			} />
+						setSearchTerm(value)
+					}} size={32} radius="xl" color={theme.primaryColor} variant="filled">
+						{(
+							!isLoading ? <IconArrowRight size="1.1rem" stroke={1.5} />
+								: <Loader size="xs" color='white' />
+						)}
+					</ActionIcon>
+				} />
+			</div>
+
 			{/* <TextInput
 				placeholder="Search"
 				size="xs"
