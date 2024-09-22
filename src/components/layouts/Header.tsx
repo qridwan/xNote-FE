@@ -10,7 +10,8 @@ import {
 	Burger,
 	rem,
 	Button,
-	Drawer
+	Drawer,
+	Flex
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
@@ -25,11 +26,13 @@ import BrandLogo from '../../atoms/BrandLogo';
 import { useAppDispatch, useAppSelector } from '../../redux/hook';
 import { userLoggedOut } from '../../redux/features/auth/authSlice';
 import { XSidebar } from '../../components/layouts/Sidebar';
+import { setSidebar } from '../../redux/features/notes/noteSlice';
 
 const XHeader = () => {
 	const { user } = useAppSelector(state => state.auth);
 	const { classes, theme, cx } = useStyles();
 	const [opened, { toggle }] = useDisclosure(false);
+	const [pcopened, { toggle: pctoggle }] = useDisclosure(false);
 	const [userMenuOpened, setUserMenuOpened] = useState(false);
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch()
@@ -37,17 +40,26 @@ const XHeader = () => {
 		dispatch(userLoggedOut());
 		localStorage.clear();
 	};
+	const label = opened ? 'Close navigation' : 'Open navigation';
 
 	return (
 		<div className={classes.header}>
 			<Container className={classes.mainSection}>
 				<Group position="apart">
-					<BrandLogo />
+					<Flex gap={3} justify={'center'} align={'center'}>
+						<Burger
+							className={classes.burger_pc} opened={pcopened} onClick={() => {
+								pctoggle();
+								dispatch(setSidebar(pcopened ? 'default' : 'short'))
+							}} aria-label={label} />
+
+						<BrandLogo />
+					</Flex>
 
 					<Burger
 						opened={opened}
 						onClick={toggle}
-						className={classes.burger}
+						className={classes.burger_sp}
 						size="sm"
 					// color={theme.white}
 					/>
@@ -165,8 +177,13 @@ const useStyles = createStyles((theme) => ({
 		},
 	},
 
-	burger: {
+	burger_sp: {
 		[theme.fn.largerThan('xs')]: {
+			display: 'none',
+		},
+	},
+	burger_pc: {
+		[theme.fn.smallerThan('xs')]: {
 			display: 'none',
 		},
 	},

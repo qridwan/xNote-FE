@@ -11,7 +11,7 @@ import {
 	Box,
 	ScrollArea,
 } from '@mantine/core';
-import { IconBulb, IconPlus, IconTrash, IconArrowRight, IconSquarePlus } from '@tabler/icons-react';
+import { IconMist, IconPlus, IconTrash, IconArrowRight, IconSquarePlus } from '@tabler/icons-react';
 //   import { UserButton } from '../UserButton/UserButton';
 import classes from './Sidebar.module.css';
 import { SearchArea } from '../Home/SearchArea';
@@ -22,20 +22,20 @@ import { useGetnotesQuery } from '../../redux/features/notes/noteApi';
 import { useGetnotebookQuery } from '../../redux/features/notebook/notebookApi';
 import { notebookType } from '../../types/notebook';
 import { Link } from 'react-router-dom';
-
-
+import { useAppSelector } from '../../redux/hook';
 
 export function XSidebar({ toggle }: { toggle: () => void }) {
 	const navigate = useNavigate();
 	const [value, setValue] = useState<string>('');
 	const [searchTerm, setSearchTerm] = useState<string>('');
 	const theme = useMantineTheme();
+	const { settings: { sidebar } } = useAppSelector(state => state.note);
 	const { data: allTrash, isLoading } = useGettrashQuery({ searchTerm: searchTerm }, { refetchOnMountOrArgChange: true, })
 	const { data: allNotes } = useGetnotesQuery({ searchTerm: searchTerm }, { refetchOnMountOrArgChange: true, })
 	const { data: allNoteBooks } = useGetnotebookQuery({}, { refetchOnMountOrArgChange: true, })
 
 	const links = [
-		{ icon: IconBulb, label: 'All Notes', color: 'grey', notifications: allNotes?.data.length ?? 0, link: '/all' },
+		{ icon: IconMist, label: 'All Notes', color: 'grey', notifications: allNotes?.data.length ?? 0, link: '/all' },
 		{ icon: IconSquarePlus, label: 'Create Note', color: 'gray', link: '/create' },
 		{ icon: IconTrash, label: 'Trash', color: 'red', notifications: allTrash?.data.length ?? 0, link: '/trash' },
 
@@ -60,6 +60,18 @@ export function XSidebar({ toggle }: { toggle: () => void }) {
 		</UnstyledButton>
 	));
 
+	const shortMainLinks = links.map((link) => (
+		<UnstyledButton onClick={() => {
+			navigate(link.link)
+			toggle();
+		}} key={link.label} className={classes.mainLink}>
+			<div className={classes.shortMainLinkInner}>
+				<link.icon color={link.color} size={22} className={classes.shortMainLinkIcon} stroke={1.5} />
+			</div>
+
+		</UnstyledButton>
+	));
+
 	const collectionLinks = allNoteBooks?.data.map((notebook: notebookType) => (
 		<Link
 			to={`/notebook/${notebook.id as string}`}
@@ -71,59 +83,90 @@ export function XSidebar({ toggle }: { toggle: () => void }) {
 			{notebook.name}
 		</Link>
 	));
+	const shortCollectionLinks = allNoteBooks?.data.map((notebook: notebookType) => (
+
+		<Tooltip key={notebook.id} style={{ zIndex: '1000 !important' }} label={notebook.name} withArrow color='grey' position="bottom">
+			<Link
+				to={`/notebook/${notebook.id as string}`}
+
+				className={classes.shortCollectionLink}
+				onClick={toggle}
+			>
+				<span style={{ fontSize: rem(16) }}>{notebook.icon}</span>{' '}
+
+			</Link>
+		</Tooltip>
+	));
 
 	return (
-		<nav className={classes.navbar}>
-			<div className={classes.section}>
-				{/* <UserButton /> */}
-				<SearchArea value={value} onChange={(event) => {
-					setValue(event.currentTarget.value)
-					if (event.currentTarget.value === '') {
-						setSearchTerm('')
-					}
-				}} rightSection={
-					<ActionIcon disabled={isLoading} onClick={() => {
+		<nav className={sidebar == "default" ? classes.navbar : classes.shortNavbar}>
+			{sidebar == 'default' && <main>
+				<section className={classes.section}>
+					{/* <UserButton /> */}
+					<SearchArea value={value} onChange={(event) => {
+						setValue(event.currentTarget.value)
+						if (event.currentTarget.value === '') {
+							setSearchTerm('')
+						}
+					}} rightSection={
+						<ActionIcon disabled={isLoading} onClick={() => {
 
-						setSearchTerm(value)
-					}} size={32} radius="xl" color={theme.primaryColor} variant="filled">
-						{(
-							!isLoading ? <IconArrowRight size="1.1rem" stroke={1.5} />
-								: <Loader size="xs" color='white' />
-						)}
-					</ActionIcon>
-				} />
-			</div>
-
-			{/* <TextInput
-				placeholder="Search"
-				size="xs"
-				leftSection={<IconSearch style={{ width: rem(12), height: rem(12) }} stroke={1.5} />}
-				rightSectionWidth={70}
-				rightSection={<Code className={classes.searchCode}>Ctrl + K</Code>}
-				// styles={{ section: { pointerEvents: 'none' } }}
-				mb="sm"
-			/> */}
-
-			<div className={classes.section}>
-				<div className={classes.mainLinks}>{mainLinks}</div>
-			</div>
-
-			<div className={classes.section}>
-				<Flex className={classes.collectionsHeader} justify="space-between">
-					<Text size="lg" fw={500} c="dimmed">
-						Folders
-					</Text>
-					<Tooltip label="Create Folder" withArrow color='grey' position="right">
-						<ActionIcon onClick={() => navigate('/create-notebook')} variant="default" size={18}>
-							<IconPlus style={{ width: rem(12), height: rem(12) }} stroke={1.5} />
+							setSearchTerm(value)
+						}} size={22} radius="xl" color={theme.primaryColor} variant="filled">
+							{(
+								!isLoading ? <IconArrowRight size="1rem" stroke={1.5} />
+									: <Loader size="xs" color='white' />
+							)}
 						</ActionIcon>
-					</Tooltip>
-				</Flex>
-				<Box component={ScrollArea} h={"60vh"} className={classes.collections}
-				>
-					{collectionLinks ?? ''}
-				</Box>
-			</div>
+					} />
+				</section>
+
+				<section className={classes.section}>
+					<div className={classes.mainLinks}>{mainLinks}</div>
+				</section>
+
+				<section className={classes.section}>
+					<Flex className={classes.collectionsHeader} justify="space-between">
+						<Text size="lg" fw={500} c="dimmed">
+							Folders
+						</Text>
+						<Tooltip style={{ zIndex: '1000 !important' }} label="Create Folder" withArrow color='grey' position="top">
+							<ActionIcon onClick={() => navigate('/create-notebook')} variant="default" size={18}>
+								<IconPlus style={{ width: rem(12), height: rem(12) }} stroke={1.5} />
+							</ActionIcon>
+						</Tooltip>
+					</Flex>
+					<Box component={ScrollArea} h={"60vh"} className={classes.collections}
+					>
+						{collectionLinks ?? ''}
+					</Box>
+				</section>
+			</main>}
+
+			{/* FOR SHORT NAVBAR */}
+			{
+				sidebar == 'short' && <main>
+
+					<section className={classes.shortSection}>
+						<div className={classes.shortMainLinks}>{shortMainLinks}</div>
+					</section>
+
+					<hr />
+
+					<section className={classes.shortSection}>
+						<Flex className={classes.collectionsHeader} justify="space-between">
+							<Text size="xs" fw={500} c="dimmed">
+								Folders
+							</Text>
+						</Flex>
+						<Box component={ScrollArea} h={"60vh"} className={classes.collections}
+						>
+							{shortCollectionLinks ?? ''}
+						</Box>
+					</section>
+				</main>
+			}
 		</nav>
 	);
 }
+

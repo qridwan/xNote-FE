@@ -11,8 +11,7 @@ import {
 	Center,
 	Box,
 	rem,
-	createStyles,
-	ScrollArea,
+	createStyles
 } from '@mantine/core';
 import { IconArrowLeft, IconCheck, IconRotate, IconX } from '@tabler/icons-react';
 import { useSinglenoteQuery } from '../redux/features/notes/noteApi';
@@ -23,10 +22,10 @@ import { useDisclosure } from '@mantine/hooks';
 import EditNote from '../components/Home/EditNote';
 import { useDeletetrashMutation } from '../redux/features/trash/trashApi';
 import notify from '../utils/notify';
-import CardAction from '../atoms/CardAction';
-import isColorLight from '../utils/isColorLight';
 import { formatDate } from '../helpers/dates';
 import NoteDetailsSkeleton from '../components/skeletons/NoteDetails';
+import NoteTiptap from '../components/Note/NoteTiptap';
+import NoteAction from '../atoms/NoteAction';
 
 const NoteDetails = () => {
 	const { id: noteId } = useParams();
@@ -34,9 +33,8 @@ const NoteDetails = () => {
 	const { data: note, isLoading: isFetchLoading } = useSinglenoteQuery(noteId as string, { refetchOnMountOrArgChange: true });
 	const navigate = useNavigate();
 	const { classes } = useStyles();
-	const { title, content, color, create_time, deleted_at, trash_id } = note?.data || {};
+	const { content, color, create_time, deleted_at, trash_id } = note?.data || {};
 	const { user } = useAppSelector(state => state.auth)
-	const isLightBG = isColorLight(color as string);
 	const [deletetrash, { isLoading }] = useDeletetrashMutation();
 
 	return (
@@ -55,16 +53,22 @@ const NoteDetails = () => {
 						<Grid.Col span={11}
 						>
 							<Box sx={{ width: '100%', background: color ?? 'grey', display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
-								<Text fz={18} className={classes.title} color={isLightBG ? '#4A6098' : 'white'} fw={700} >
+								{/* <Text fz={18} className={classes.title} color={isLightBG ? '#4A6098' : 'white'} fw={700} >
 									{title}
-								</Text>
+								</Text> */}
+								{create_time && <Text align='center' fz="xs" fw={600} color={'white'}>
+									{formatDate(create_time as string)}
+								</Text>}
+								{deleted_at && <Text align='center' fz="xs" fw={600} color={'yellow'}>
+									Deleted At: {formatDate(deleted_at as string)}
+								</Text>}
 							</Box>
-							{create_time && <Text align='center' fz="xs" fw={600} color={'#4A6098'}>
+							{/* {create_time && <Text align='center' fz="xs" fw={600} color={'#4A6098'}>
 								{formatDate(create_time as string)}
 							</Text>}
 							{deleted_at && <Text align='center' fz="xs" fw={600} color={'red'}>
 								Deleted At: {formatDate(deleted_at as string)}
-							</Text>}
+							</Text>} */}
 
 
 
@@ -76,10 +80,14 @@ const NoteDetails = () => {
 					</Group>}
 
 
-					<Box style={{ textDecoration: 'none', color: 'inherit', border: `1px dashed ${color as string ?? 'grey'}`, margin: '10px' }}>
-						<ScrollArea h={'68vh'} type="never" >
-							<div dangerouslySetInnerHTML={{ __html: content }} style={{ margin: '30px' }}></div>
-						</ScrollArea>
+					<Box style={{ textDecoration: 'none', color: 'inherit', border: `none`, margin: '10px' }}>
+
+						{/* <ScrollArea h={'68vh'} type="never" > */}
+						{/* <div dangerouslySetInnerHTML={{ __html: content }} style={{ margin: '30px' }}></div> */}
+
+						<NoteTiptap readonly={true} onValueChange={() => null} content={content} />
+
+						{/* </ScrollArea> */}
 						<Box className={classes.footer}>
 							<Flex justify={'space-between'} >
 								<Center>
@@ -105,7 +113,7 @@ const NoteDetails = () => {
 
 									}} color='green' className={classes.action}>
 										<IconRotate size="1rem" color={'green'} />
-									</ActionIcon></Tooltip> : <CardAction note={note?.data} />}
+									</ActionIcon></Tooltip> : <NoteAction note={note?.data} />}
 
 
 								</Group>
@@ -113,7 +121,7 @@ const NoteDetails = () => {
 
 
 							{/* Edit modal */}
-							<Modal size="calc(100vw - 60vw)" opened={openedEdit} onClose={closeEdit} title="" centered>
+							<Modal fullScreen opened={openedEdit} onClose={closeEdit} title="" centered>
 								<EditNote note={note?.data as noteType} close={closeEdit} />
 							</Modal>
 
@@ -164,3 +172,4 @@ const useStyles = createStyles((theme) => ({
 		margin: theme.spacing.md,
 	},
 }));
+

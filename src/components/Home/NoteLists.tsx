@@ -12,8 +12,11 @@ const NoteLists = ({ type, notes, isLoading }: { type: string, notes: noteType[]
 	useEffect(() => {
 		isLoading && setIsAddNoteOpen(false);
 	}, [isLoading]);
+	const buttonVariant = isAddNoteOpen ? "light" : "white";
+	const buttonIcon = isAddNoteOpen ? <IconX /> : <IconSquarePlus />;
+	const buttonText = isAddNoteOpen ? "Discard" : "Create Note";
 	const addNote = <Grid.Col span={12}>
-		<Button variant={isAddNoteOpen ? "light" : "white"} leftIcon={isAddNoteOpen ? <IconX /> : <IconSquarePlus />} size='lg' onClick={() => setIsAddNoteOpen(!isAddNoteOpen)} color="gray" fullWidth>{isAddNoteOpen ? "Discard" : "Create Note"}</Button>
+		<Button variant={buttonVariant} leftIcon={buttonIcon} size='lg' onClick={() => setIsAddNoteOpen(!isAddNoteOpen)} color="gray" fullWidth>{buttonText}</Button>
 		{
 			isAddNoteOpen && <CreateNote />
 		}
