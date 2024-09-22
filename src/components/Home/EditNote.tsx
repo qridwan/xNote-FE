@@ -9,27 +9,28 @@ import {
 	NativeSelect,
 	MultiSelect,
 	Box,
+	Grid,
 } from '@mantine/core';
 import { noteType } from '../../types/note';
-import { IconX } from '@tabler/icons-react';
-import { useState } from 'react';
+import { IconX, IconCheck } from '@tabler/icons-react';
+import { useCallback, useState } from 'react';
 import { useEditnoteMutation } from '../../redux/features/notes/noteApi';
-import Editor from '../../atoms/Editor';
 import isColorLight from '../../utils/isColorLight';
-import { IconCheck } from '@tabler/icons-react';
 import notify from '../../utils/notify';
 import { convertSchema } from '../../utils/convertSchema';
 import { useGetnotebookQuery } from '../../redux/features/notebook/notebookApi';
 import { notebookType } from '../../types/notebook';
+import NoteTiptap from '../Note/NoteTiptap';
+import { debounce } from '../../utils/debounce';
 
 const EditNote = ({ note, close }: { note: noteType, close?: () => void }) => {
 	const { data: allNoteBooks } = useGetnotebookQuery({}, { refetchOnMountOrArgChange: true, })
 	const [editnote, { isLoading }] = useEditnoteMutation();
 	const [tags, setTags] = useState<string[]>([]);
 	const [content, setContent] = useState<string>(note.content);
-	const handleChangeEditor = ({ editor }: any) => {
-		setContent(editor?.getHTML() as string);
-	};
+	// const handleChangeEditor = ({ editor }: any) => {
+	// 	setContent(editor?.getHTML() as string);
+	// };
 	const form = useForm({
 		initialValues: {
 			title: note.title,
@@ -40,6 +41,14 @@ const EditNote = ({ note, close }: { note: noteType, close?: () => void }) => {
 			id: note?.id,
 		},
 	});
+
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const onValueChange = useCallback(
+		debounce((value: string) => {
+			setContent(value)
+		}, 300),
+		[],
+	)
 
 	return (
 		<div>
@@ -64,16 +73,46 @@ const EditNote = ({ note, close }: { note: noteType, close?: () => void }) => {
 
 						<Text bg={note.color} py={4} color={isColorLight(note?.color as string) ? 'grey' : 'white'} align='center' fw={800}>Edit NOTE</Text>
 						<TextInput label="Title" placeholder="Think and Grow Rich" required {...form.getInputProps('title')} />
+						<Grid>
+							<Grid.Col span={4}>
+								<NativeSelect
+									label="Choose Notebook"
 
+									data={convertSchema.NotebookConvertedSchema(allNoteBooks?.data as notebookType[])}
+									{...form.getInputProps('notebook_id')}
+								/>
+							</Grid.Col>
+							<Grid.Col span={4}>
+								<ColorInput label="Set note color" {...form.getInputProps('color')} swatches={['#25262b', '#868e96', '#fa5252', '#e64980', '#be4bdb', '#7950f2', '#4c6ef5', '#228be6', '#15aabf', '#12b886', '#40c057', '#82c91e', '#fab005', '#fd7e14']} defaultValue="#C5D899" />
+							</Grid.Col>
+							<Grid.Col span={4}>
+								<MultiSelect
+									label="Add Tags (Optional)"
+									data={tags}
+									placeholder="Choose/Create Tags"
+									searchable
+									creatable
+									{...form.getInputProps('tags')}
+									getCreateLabel={(query) => `+ Create ${query}`}
+									onCreate={(query) => {
+										const item = { value: query, label: query };
+										setTags((current: any) => [...current, item]);
+										return item;
+									}}
+								/>
+							</Grid.Col>
+						</Grid>
 						<Box >
 							<Text color='dark' align='start' fz={14} fw={500}>Description *</Text>
-							<Editor
+							{/* <Editor
 								handleChangeEditor={handleChangeEditor}
 								content={content}
-							/>
+							/> */}
+
+							<NoteTiptap onValueChange={onValueChange} content={content} />
 						</Box>
 
-						<NativeSelect
+						{/* <NativeSelect
 							label="Choose Notebook"
 							data={convertSchema.NotebookConvertedSchema(allNoteBooks?.data as notebookType[])}
 							{...form.getInputProps('notebook_id')}
@@ -93,7 +132,7 @@ const EditNote = ({ note, close }: { note: noteType, close?: () => void }) => {
 								return item;
 							}}
 						/>
-						<ColorInput label="Choose a color" {...form.getInputProps('color')} defaultValue="#C5D899" />
+						<ColorInput label="Choose a color" {...form.getInputProps('color')} defaultValue="#C5D899" /> */}
 
 						<Button disabled={isLoading} fullWidth gradient={{ from: 'indigo', to: 'cyan' }} mt="xl" color='grey' type='submit' >
 							{!isLoading ? 'Update' : 'loading...'}
@@ -106,5 +145,3 @@ const EditNote = ({ note, close }: { note: noteType, close?: () => void }) => {
 };
 
 export default EditNote;
-
-

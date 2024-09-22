@@ -1,12 +1,10 @@
-
 import { Menu, rem, ActionIcon, Modal } from '@mantine/core';
-import { IconCheck, IconEdit, IconLoader, IconTrashX, IconX } from '@tabler/icons-react';
+import { IconCheck, IconEdit, IconLoader, IconTrashX, IconX, IconDotsVertical } from '@tabler/icons-react';
 import { noteType } from '../types/note';
 import { useDisclosure } from '@mantine/hooks';
 import EditNote from '../components/Home/EditNote';
 import { useAddtrashMutation } from '../redux/features/trash/trashApi';
 import notify from '../utils/notify';
-import { IconDotsVertical } from '@tabler/icons-react';
 
 
 
@@ -15,7 +13,10 @@ const CardAction = ({ note }: { note: noteType }) => {
 	const [addtrash, { isLoading }] = useAddtrashMutation();
 	return (
 		<>
-			<Modal size={'xl'} shadow='sm' bg={'dark'} opened={opened} onClose={close} centered>
+			<Modal fullScreen
+				radius={0}
+				transitionProps={{ transition: 'fade', duration: 200 }}
+				shadow='sm' bg={'dark'} opened={opened} onClose={close}>
 				<EditNote note={note} close={close} />
 			</Modal>
 			<Menu width={200} shadow="md">
@@ -56,3 +57,4 @@ const CardAction = ({ note }: { note: noteType }) => {
 };
 
 export default CardAction;
+

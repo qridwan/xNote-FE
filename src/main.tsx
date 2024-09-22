@@ -5,9 +5,7 @@ import store from './redux/store';
 import { Notifications } from '@mantine/notifications';
 import App from './App';
 import { MantineProvider, } from '@mantine/core';
-
-
-
+import ScrollTop from './components/shared/ScrollTop';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<Provider store={store}>
@@ -43,6 +41,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 		>
 			<Notifications position='top-center' autoClose={3000} />
 			<App />
+			<ScrollTop />
 		</MantineProvider>
 	</Provider>
 )

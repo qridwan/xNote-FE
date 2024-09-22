@@ -1,0 +1,26 @@
+/* Basic Styling */
+::-webkit-scrollbar {
+  width: 10px; /* Adjust width as needed */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Track color */
+  border-radius: 5px; /* Add some curve */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3a3e41; /* Thumb color */
+  border-radius: 5px; /* Match the track's curve */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #252729; /* Darker color on hover */
+}
+
+.richtext-outline {
+  outline-style: none !important;
+}
+
+.richtext-shadow {
+  box-shadow: none !important;
+}

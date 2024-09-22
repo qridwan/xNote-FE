@@ -5,12 +5,14 @@ import XHeader from "../components/layouts/Header";
 import { XSidebar } from "../components/layouts/Sidebar";
 import { useMediaQuery, useDisclosure } from "@mantine/hooks";
 import { useEffect } from "react";
+import { useAppSelector } from "../redux/hook";
 
 export function MainLayout() {
 	const isMobile = useMediaQuery("(min-width: 500px)");
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [_, { toggle }] = useDisclosure(false);
 	const navigate = useNavigate();
+	const { settings: { sidebar } } = useAppSelector(state => state.note);
 
 	useEffect(() => {
 		const authItem: string | null = localStorage.getItem("auth");
@@ -51,9 +53,11 @@ export function MainLayout() {
 			})}
 			footer={<Footer />}
 		>
-			<Box mih={"90vh"} ml={rem('350px')} mt={rem('40px')} style={{ padding: "2vh", }} >
+			<Box mih={"80vh"} ml={sidebar == 'default' ? '250px' : '50px'} mt={rem('40px')} style={{ padding: "0vh", }} >
 				<Outlet />
 			</Box>
 		</AppShell>
 	);
 }
+
+
