@@ -23,6 +23,7 @@ import { useGetnotebookQuery } from '../../redux/features/notebook/notebookApi';
 import { notebookType } from '../../types/notebook';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../redux/hook';
+import NotebookAction from '../../atoms/NotebookAction';
 
 export function XSidebar({ toggle }: { toggle: () => void }) {
 	const navigate = useNavigate();
@@ -68,20 +69,22 @@ export function XSidebar({ toggle }: { toggle: () => void }) {
 			<div className={classes.shortMainLinkInner}>
 				<link.icon color={link.color} size={22} className={classes.shortMainLinkIcon} stroke={1.5} />
 			</div>
-
 		</UnstyledButton>
 	));
 
 	const collectionLinks = allNoteBooks?.data.map((notebook: notebookType) => (
-		<Link
-			to={`/notebook/${notebook.id as string}`}
-			key={notebook.id}
-			className={classes.collectionLink}
-			onClick={toggle}
-		>
-			<span style={{ marginRight: rem(9), fontSize: rem(16) }}>{notebook.icon}</span>{' '}
-			{notebook.name}
-		</Link>
+		<Flex className={classes.notebookItem} justify="space-between"
+			key={notebook.id}>
+			<Link
+				to={`/notebook/${notebook.id as string}`}
+				className={classes.collectionLink}
+				onClick={toggle}
+			>
+				<span style={{ marginRight: rem(4), fontSize: rem(16) }}>{notebook.icon}</span>{' '}
+				{notebook.name}
+			</Link>
+			<NotebookAction css={classes.notebookDelete} notebook={notebook} />
+		</Flex>
 	));
 	const shortCollectionLinks = allNoteBooks?.data.map((notebook: notebookType) => (
 
@@ -169,4 +172,3 @@ export function XSidebar({ toggle }: { toggle: () => void }) {
 		</nav>
 	);
 }
-

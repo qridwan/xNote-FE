@@ -14,7 +14,6 @@ import { noteType } from '../../types/note';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import { useState } from 'react';
 import { useAddnoteMutation } from '../../redux/features/notes/noteApi';
-import Editor from '../../atoms/Editor';
 import notify from '../../utils/notify';
 
 const AddNote = () => {
@@ -22,9 +21,9 @@ const AddNote = () => {
 	const [tags, setTags] = useState<string[]>([]);
 	const [content, setContent] = useState<string>('');
 
-	const handleChangeEditor = ({ editor }: any) => {
-		setContent(editor?.getHTML() as string);
-	};
+	// const handleChangeEditor = ({ editor }: any) => {
+	// 	setContent(editor?.getHTML() as string);
+	// };
 
 	const form = useForm({
 		initialValues: {
@@ -74,10 +73,10 @@ const AddNote = () => {
 						/> */}
 						<Box >
 							<Text color='dark' align='start' fz={14} fw={500}>Description *</Text>
-							<Editor
+							{/* <Editor
 								handleChangeEditor={handleChangeEditor}
 								content={content}
-							/>
+							/> */}
 						</Box>
 
 						<NativeSelect

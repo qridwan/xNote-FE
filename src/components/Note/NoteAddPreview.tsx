@@ -12,14 +12,14 @@ import {
 } from '@mantine/core';
 import { noteType } from '../../types/note';
 import { IconCheck, IconX } from '@tabler/icons-react';
-import { useCallback, useState } from 'react';
+import { lazy, Suspense, useCallback, useState } from 'react';
 import { useAddnoteMutation } from '../../redux/features/notes/noteApi';
 import notify from '../../utils/notify';
 import { useNavigate } from 'react-router-dom';
 import { useGetnotebookQuery } from '../../redux/features/notebook/notebookApi';
 import { notebookType } from '../../types/notebook';
 import { convertSchema } from '../../utils/convertSchema';
-import NoteTiptap from './NoteTiptap';
+const NoteTiptap = lazy(() => import('./NoteTiptap'));
 import { debounce } from '../../utils/debounce';
 import { getTitleFromContent } from '../../utils/getTitleFromContent';
 
@@ -136,8 +136,9 @@ const NoteAddForm = ({ content, setContent, readonly }: { content: string, setCo
 						/> */}
 					</Box>
 					}
-
-					<NoteTiptap readonly={readonly} onValueChange={onValueChange} content={content} />
+					<Suspense fallback={<div>Loading...</div>}>
+						<NoteTiptap readonly={readonly} onValueChange={onValueChange} content={content} />
+					</Suspense>
 
 					<Button disabled={isLoading} fullWidth gradient={{ from: 'indigo', to: 'cyan' }} mt="xl" color='grey' type='submit' >
 						{!isLoading ? 'SAVE' : 'SAVING...'}
@@ -149,5 +150,3 @@ const NoteAddForm = ({ content, setContent, readonly }: { content: string, setCo
 };
 
 export default NoteAddForm;
-
-

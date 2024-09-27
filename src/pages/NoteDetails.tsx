@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import {
 	Text,
 	ActionIcon,
@@ -24,7 +25,7 @@ import { useDeletetrashMutation } from '../redux/features/trash/trashApi';
 import notify from '../utils/notify';
 import { formatDate } from '../helpers/dates';
 import NoteDetailsSkeleton from '../components/skeletons/NoteDetails';
-import NoteTiptap from '../components/Note/NoteTiptap';
+const NoteTiptap = lazy(() => import('../components/Note/NoteTiptap'));
 import NoteAction from '../atoms/NoteAction';
 
 const NoteDetails = () => {
@@ -84,8 +85,9 @@ const NoteDetails = () => {
 
 						{/* <ScrollArea h={'68vh'} type="never" > */}
 						{/* <div dangerouslySetInnerHTML={{ __html: content }} style={{ margin: '30px' }}></div> */}
-
-						<NoteTiptap readonly={true} onValueChange={() => null} content={content} />
+						<Suspense fallback={<div>Loading...</div>}>
+							<NoteTiptap readonly={true} onValueChange={() => null} content={content} />
+						</Suspense>
 
 						{/* </ScrollArea> */}
 						<Box className={classes.footer}>
@@ -172,4 +174,3 @@ const useStyles = createStyles((theme) => ({
 		margin: theme.spacing.md,
 	},
 }));
-

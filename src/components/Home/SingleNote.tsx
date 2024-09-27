@@ -78,7 +78,7 @@ export function SingleNote({ note }: { note: noteType }) {
 				<Card.Section mt={-20}>
 					<Box sx={{ minHeight: 50, width: '100%', background: color ?? 'grey', display: 'flex', justifyContent: 'center', alignItems: 'center', }} >
 						<Text truncate="end" className={classes.title} color={isLightBG ? '#4A6098' : 'white'} fw={700} >
-							{title}{title}
+							{title}
 						</Text>
 					</Box>
 					{create_time && <Text align='center' fz="xs" fw={600} color={'#4A6098'}>

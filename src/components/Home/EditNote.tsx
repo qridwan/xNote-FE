@@ -13,14 +13,15 @@ import {
 } from '@mantine/core';
 import { noteType } from '../../types/note';
 import { IconX, IconCheck } from '@tabler/icons-react';
-import { useCallback, useState } from 'react';
+import { lazy, Suspense, useCallback, useState } from 'react';
 import { useEditnoteMutation } from '../../redux/features/notes/noteApi';
 import isColorLight from '../../utils/isColorLight';
 import notify from '../../utils/notify';
 import { convertSchema } from '../../utils/convertSchema';
 import { useGetnotebookQuery } from '../../redux/features/notebook/notebookApi';
 import { notebookType } from '../../types/notebook';
-import NoteTiptap from '../Note/NoteTiptap';
+const NoteTiptap = lazy(() => import('../Note/NoteTiptap'));
+
 import { debounce } from '../../utils/debounce';
 
 const EditNote = ({ note, close }: { note: noteType, close?: () => void }) => {
@@ -108,8 +109,9 @@ const EditNote = ({ note, close }: { note: noteType, close?: () => void }) => {
 								handleChangeEditor={handleChangeEditor}
 								content={content}
 							/> */}
-
-							<NoteTiptap onValueChange={onValueChange} content={content} />
+							<Suspense fallback={<div>Loading...</div>}>
+								<NoteTiptap onValueChange={onValueChange} content={content} />
+							</Suspense>
 						</Box>
 
 						{/* <NativeSelect
