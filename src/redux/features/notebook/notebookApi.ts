@@ -15,7 +15,7 @@ const notebookApi = api.injectEndpoints({
         url: `/notebooks/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["notebook"],
+      invalidatesTags: ["notebook", "notes", "trash", "single_note"],
     }),
     addnotebook: builder.mutation({
       query: (data: notebookType) => ({

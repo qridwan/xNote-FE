@@ -1,16 +1,16 @@
 import { ActionIcon, Modal, Flex } from '@mantine/core';
 import { IconCheck, IconEdit, IconX } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
-import { useAddtrashMutation } from '../redux/features/trash/trashApi';
 import notify from '../utils/notify';
 import { notebookType } from '../types/notebook';
 import EditNotebookForm from '../components/NoteBook/EditNoteBookForm';
+import { useDeletenotebookMutation } from '../redux/features/notebook/notebookApi';
 
 
 
 const NotebookAction = ({ notebook, css }: { notebook: notebookType, css: CSSModuleClasses[''] }) => {
 	const [opened, { open, close }] = useDisclosure(false);
-	const [addtrash] = useAddtrashMutation();
+	const [deleteNotebook] = useDeletenotebookMutation();
 	return (
 		<>
 			<Modal fullScreen
@@ -19,7 +19,7 @@ const NotebookAction = ({ notebook, css }: { notebook: notebookType, css: CSSMod
 				transitionProps={{ transition: 'fade', duration: 200 }}
 				shadow='sm' bg={'dark'} opened={opened} onClose={close}>
 				<h2>Edit NoteBook</h2>
-				<EditNotebookForm existingNb={notebook} />
+				<EditNotebookForm existingNb={notebook} close={close} />
 				{/* <EditNote note={note} close={close} /> */}
 			</Modal>
 			<Flex justify={'space-evenly'}>
@@ -28,7 +28,7 @@ const NotebookAction = ({ notebook, css }: { notebook: notebookType, css: CSSMod
 				</ActionIcon>
 				<ActionIcon color='gray' className={css}>
 					<IconX onClick={async () => {
-						const res: any = await addtrash({ note_id: notebook.id as number });
+						const res: any = await deleteNotebook(notebook.id as string);
 						const isSuccess = Boolean(res?.data?.status === 'Success');
 						const icon = isSuccess ? <IconCheck /> : <IconX color="red" />;
 						notify(isSuccess, "Notebook moved to trash, you can retrieve it later", icon);

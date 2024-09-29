@@ -15,7 +15,7 @@ import { IconCheck, IconX } from '@tabler/icons-react';
 import { lazy, Suspense, useCallback, useState } from 'react';
 import { useAddnoteMutation } from '../../redux/features/notes/noteApi';
 import notify from '../../utils/notify';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useGetnotebookQuery } from '../../redux/features/notebook/notebookApi';
 import { notebookType } from '../../types/notebook';
 import { convertSchema } from '../../utils/convertSchema';
@@ -29,7 +29,11 @@ const NoteAddForm = ({ content, setContent, readonly }: { content: string, setCo
 	const navigate = useNavigate();
 	const { data: allNoteBooks } = useGetnotebookQuery({}, { refetchOnMountOrArgChange: true, });
 	const [isHideOderInput] = useState<boolean>(false);
+	const route = useLocation();
+	const { pathname } = route;
+	const notebookId = pathname.split('/')[2] ?? null;
 
+	console.log('\x1b[34m%s\x1b[0m', 'src/components/Note/NoteAddPreview.tsx:33 route', route);
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const onValueChange = useCallback(
 		debounce((value: string) => {
@@ -52,7 +56,7 @@ const NoteAddForm = ({ content, setContent, readonly }: { content: string, setCo
 		initialValues: {
 			title: '',
 			content: content,
-			notebook_id: allNoteBooks?.data[0]?.id.toString(),
+			notebook_id: notebookId ?? allNoteBooks?.data[0]?.id.toString(),
 			category_id: null,
 			color: '',
 		}
