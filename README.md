@@ -17,6 +17,9 @@ xNote-fe is a front-end project built with React and TypeScript, utilizing Vite 
 - [API Documentation](https://documenter.getpostman.com/view/15074292/2s9YXfcimY#22177e0b-79c1-499f-ad21-a4e7deb0b6cf)
 
 ## Installation
+Run Backend Service by following this instruction:
+
+[Backend Service Repo](https://github.com/qridwan/xNote-server?tab=readme-ov-file#installation)
 
 To install the project dependencies, run:
 
@@ -116,3 +119,4 @@ I welcome contributions to improve xNote and make it even better! To contribute 
 If you encounter any issues or have suggestions for new features, please open an issue on the GitHub repository. Provide as much detail as possible to help us understand and address the problem or idea.
 
 Thank you for contributing to xNote! 🚀 HapPy Coding ✨
+
