@@ -6,8 +6,6 @@ import { notebookType } from '../types/notebook';
 import EditNotebookForm from '../components/NoteBook/EditNoteBookForm';
 import { useDeletenotebookMutation } from '../redux/features/notebook/notebookApi';
 
-
-
 const NotebookAction = ({ notebook, css }: { notebook: notebookType, css: CSSModuleClasses[''] }) => {
 	const [opened, { open, close }] = useDisclosure(false);
 	const [deleteNotebook] = useDeletenotebookMutation();
